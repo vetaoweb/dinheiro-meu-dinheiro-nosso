@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#086647">
+  <title>Recupere sua senha | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/tokens.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/auth.css">
+  <script src="/js/env.js"></script>
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-panel">
+      <a class="auth-brand" href="/"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+      <div class="auth-box">
+        <h1>Recupere sua senha</h1><p>Enviaremos um link seguro para o e-mail cadastrado.</p>
+        <div data-auth-message class="alert alert-info" hidden></div>
+        <form class="auth-form" data-auth-form="recover" novalidate><div class="field"><label for="email">E-mail</label><input class="input" id="email" name="email" type="email" autocomplete="email" required></div><button class="btn btn-primary btn-block" type="submit">Enviar instruções</button></form>
+        <div class="auth-links"><a href="/entrar">Voltar para o login</a></div>
+      </div>
+    </section>
+    <aside class="auth-visual"><div class="auth-message"><h2>Retomar o controle também faz parte do caminho.</h2><p>A recuperação utiliza o fluxo seguro de autenticação do Supabase e não revela se um e-mail está cadastrado.</p><div class="auth-stat"><span>Horizonte financeiro</span><strong>12 meses</strong></div></div></aside>
+  </main>
+  <script type="module" src="/js/auth.js"></script>
+</body>
+</html>
