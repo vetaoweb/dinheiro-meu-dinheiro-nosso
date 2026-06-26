@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#086647">
+  <title>Metas | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <script src="/js/env.js"></script>
+</head>
+<body class="app-body" data-page="metas">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="sidebar-logo" href="/painel"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+      <nav class="sidebar-nav" aria-label="Painel">
+        <a data-nav="dashboard" href="/painel"><span class="nav-icon">⌂</span>Painel</a>
+        <a data-nav="lancamentos" href="/lancamentos"><span class="nav-icon">⇅</span>Lançamentos</a>
+        <a data-nav="metas" href="/metas"><span class="nav-icon">◎</span>Metas</a>
+        <a data-nav="termometro" href="/termometro"><span class="nav-icon">◔</span>Termômetro 12 meses</a>
+        <a data-nav="configuracoes" href="/configuracoes"><span class="nav-icon">⚙</span>Configurações</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="profile-mini"><div class="avatar" data-profile-initials>MN</div><div><strong data-profile-name>Carregando...</strong><span data-profile-email></span></div></div>
+        <button class="btn sidebar-logout" type="button" data-logout>Sair</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="mobile-menu" data-mobile-menu type="button" aria-label="Abrir menu">☰</button>
+        <div class="space-switcher"><label for="space-select">Espaço financeiro</label><select class="select" id="space-select" data-space-select aria-label="Espaço financeiro"></select></div>
+        <span class="badge badge-green">Conexão segura</span>
+      </header>
+
+      <main class="page">
+        <div class="page-header">
+          <div><h1>Metas financeiras</h1><p>Transforme planos em valores, prazos e progresso visível.</p></div>
+          <button class="btn btn-primary" type="button" data-new-goal>Nova meta</button>
+        </div>
+
+        <section class="kpi-grid" aria-label="Resumo das metas">
+          <article class="card kpi"><span class="kpi-label">Valor planejado</span><strong class="kpi-value" data-goals-target>—</strong><span class="kpi-note">Soma das metas ativas</span></article>
+          <article class="card kpi"><span class="kpi-label">Já acumulado</span><strong class="kpi-value text-positive" data-goals-current>—</strong><span class="kpi-note">Progresso registrado</span></article>
+          <article class="card kpi"><span class="kpi-label">Metas ativas</span><strong class="kpi-value" data-goals-active>—</strong><span class="kpi-note">Em andamento</span></article>
+          <article class="card kpi"><span class="kpi-label">Concluídas</span><strong class="kpi-value" data-goals-completed>—</strong><span class="kpi-note">Objetivos alcançados</span></article>
+        </section>
+
+        <section class="goals-grid" data-goals-grid></section>
+        <div class="card empty-state goals-empty" data-goals-empty hidden><strong>Nenhuma meta cadastrada</strong>Crie uma meta para reserva, viagem, compra, dívida ou qualquer objetivo importante.</div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" data-goal-modal>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="goal-title">
+      <div class="modal-header"><h2 id="goal-title">Nova meta</h2><button class="modal-close" type="button" data-goal-close aria-label="Fechar">×</button></div>
+      <form data-goal-form>
+        <div class="modal-body form-grid">
+          <div class="field full"><label for="goal-name">Nome da meta</label><input class="input" id="goal-name" name="name" maxlength="100" placeholder="Ex.: Reserva de emergência" required></div>
+          <div class="field"><label for="goal-target">Valor desejado</label><input class="input" id="goal-target" name="target_amount" type="number" min="0.01" step="0.01" inputmode="decimal" required></div>
+          <div class="field"><label for="goal-current">Valor inicial</label><input class="input" id="goal-current" name="current_amount" type="number" min="0" step="0.01" inputmode="decimal" value="0"></div>
+          <div class="field full"><label for="goal-date">Data desejada (opcional)</label><input class="input" id="goal-date" name="target_date" type="date"></div>
+        </div>
+        <div class="modal-actions"><button class="btn btn-ghost" type="button" data-goal-close>Cancelar</button><button class="btn btn-primary" type="submit">Salvar meta</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop hidden" data-contribution-modal>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="contribution-title">
+      <div class="modal-header"><h2 id="contribution-title">Adicionar valor</h2><button class="modal-close" type="button" data-contribution-close aria-label="Fechar">×</button></div>
+      <form data-contribution-form>
+        <div class="modal-body form-grid">
+          <input type="hidden" name="goal_id">
+          <div class="field full"><label for="contribution-goal">Meta</label><input class="input" id="contribution-goal" name="goal_name" readonly></div>
+          <div class="field full"><label for="contribution-amount">Valor a acrescentar</label><input class="input" id="contribution-amount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" required></div>
+        </div>
+        <div class="modal-actions"><button class="btn btn-ghost" type="button" data-contribution-close>Cancelar</button><button class="btn btn-primary" type="submit">Registrar progresso</button></div>
+      </form>
+    </section>
+  </div>
+
+  <script type="module" src="/js/metas.js"></script>
+</body>
+</html>
