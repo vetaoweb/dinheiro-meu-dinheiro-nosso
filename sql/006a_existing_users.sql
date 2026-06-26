@@ -9,20 +9,11 @@ as $$
 declare
   space_id uuid;
   display_name text;
-  terms_at timestamptz;
-  privacy_at timestamptz;
 begin
   display_name := coalesce(
     nullif(trim(new.raw_user_meta_data->>'full_name'), ''),
     split_part(new.email, '@', 1)
   );
-
-  if coalesce((new.raw_user_meta_data->>'terms_accepted')::boolean, false) then
-    terms_at := now();
-  end if;
-  if coalesce((new.raw_user_meta_data->>'privacy_accepted')::boolean, false) then
-    privacy_at := now();
-  end if;
 
   insert into public.profiles (
     id, full_name, email, whatsapp, accepted_terms_at, accepted_privacy_at
@@ -31,8 +22,8 @@ begin
     display_name,
     new.email,
     nullif(trim(new.raw_user_meta_data->>'whatsapp'), ''),
-    terms_at,
-    privacy_at
+    now(),
+    now()
   );
 
   insert into public.financial_spaces (name, type, created_by)
