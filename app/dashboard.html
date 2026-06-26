@@ -13,6 +13,7 @@
   <nav class="sidebar-nav" aria-label="Painel">
     <a data-nav="dashboard" href="/painel"><span class="nav-icon">⌂</span>Painel</a>
     <a data-nav="lancamentos" href="/lancamentos"><span class="nav-icon">⇅</span>Lançamentos</a>
+    <a data-nav="metas" href="/metas"><span class="nav-icon">◎</span>Metas</a>
     <a data-nav="termometro" href="/termometro"><span class="nav-icon">◔</span>Termômetro 12 meses</a>
     <a data-nav="configuracoes" href="/configuracoes"><span class="nav-icon">⚙</span>Configurações</a>
   </nav>
@@ -36,6 +37,12 @@
   <section class="dashboard-grid">
     <article class="card panel"><div class="panel-header"><div><h2>Saldo projetado</h2><p>Fechamento mensal no horizonte móvel.</p></div><a href="/termometro">Ver detalhes</a></div><div class="chart" data-projection-chart><div class="skeleton" style="width:100%;height:220px"></div></div></article>
     <article class="card panel"><div class="panel-header"><div><h2>Saúde da projeção</h2><p>Meses sem saldo negativo.</p></div></div><div class="health-gauge"><div class="gauge-ring" data-health-gauge style="--gauge:0%"><div class="gauge-inner"><div><strong data-health-score>0%</strong><span data-health-label>Calculando...</span></div></div></div></div><div class="stack"><div class="row-between"><span class="muted">Menor saldo</span><strong data-minimum-balance>—</strong></div><div class="row-between"><span class="muted">Meses em risco</span><strong data-risk-months>—</strong></div><div class="row-between"><span class="muted">Economia em 12 meses</span><strong data-savings-12m>—</strong></div></div></article>
+  </section>
+
+  <section class="card panel" style="margin-top:16px" data-dashboard-goals>
+    <div class="panel-header"><div><h2>Metas em andamento</h2><p>Objetivos ativos no espaço selecionado.</p></div><a href="/metas">Ver todas</a></div>
+    <div class="dashboard-goals-list" data-dashboard-goals-list></div>
+    <div class="empty-state" data-dashboard-goals-empty hidden><strong>Nenhuma meta ativa</strong>Crie uma meta para acompanhar seu progresso.</div>
   </section>
 
   <section class="card table-card" style="margin-top:16px"><div class="panel-header" style="padding:20px 20px 0"><div><h2>Lançamentos recentes</h2><p>Últimas movimentações do espaço selecionado.</p></div></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th style="text-align:right">Valor</th></tr></thead><tbody data-recent-body></tbody></table><div class="empty-state" data-recent-empty hidden><strong>Nenhum lançamento ainda</strong>Cadastre sua primeira entrada ou despesa.</div></div></section>
