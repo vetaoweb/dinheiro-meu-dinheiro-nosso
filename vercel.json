@@ -1,0 +1,25 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/entrar", "destination": "/login.html" },
+    { "source": "/cadastro", "destination": "/cadastro.html" },
+    { "source": "/recuperar-senha", "destination": "/recuperar-senha.html" },
+    { "source": "/redefinir-senha", "destination": "/redefinir-senha.html" },
+    { "source": "/painel", "destination": "/app/dashboard.html" },
+    { "source": "/lancamentos", "destination": "/app/lancamentos.html" },
+    { "source": "/termometro", "destination": "/app/termometro.html" },
+    { "source": "/configuracoes", "destination": "/app/configuracoes.html" }
+  ]
+}
