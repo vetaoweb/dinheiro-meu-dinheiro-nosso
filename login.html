@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#086647">
+  <title>Entre na sua conta | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/tokens.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/auth.css">
+  <script src="/js/env.js"></script>
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-panel">
+      <a class="auth-brand" href="/"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+      <div class="auth-box">
+        <h1>Entre na sua conta</h1><p>Acesse seus espaços financeiros com segurança.</p>
+        <div data-auth-message class="alert alert-info" hidden></div>
+        <form class="auth-form" data-auth-form="login" novalidate><div class="field"><label for="email">E-mail</label><input class="input" id="email" name="email" type="email" autocomplete="email" required></div>
+       <div class="field"><label for="password">Senha</label><input class="input" id="password" name="password" type="password" autocomplete="current-password" required></div><button class="btn btn-primary btn-block" type="submit">Entrar</button></form>
+        <div class="auth-links"><a href="/recuperar-senha">Esqueci minha senha</a><a href="/cadastro">Criar conta</a></div>
+      </div>
+    </section>
+    <aside class="auth-visual"><div class="auth-message"><h2>Clareza para cuidar do hoje. Visão para construir o amanhã.</h2><p>Seu espaço pessoal continua privado. O que é compartilhado fica visível somente para os integrantes autorizados.</p><div class="auth-stat"><span>Horizonte financeiro</span><strong>12 meses</strong></div></div></aside>
+  </main>
+  <script type="module" src="/js/auth.js"></script>
+</body>
+</html>
