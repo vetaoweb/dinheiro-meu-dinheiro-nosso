@@ -31,6 +31,29 @@ function absoluteNextUrl() {
   return new URL(safeNextPath(), window.location.origin).href;
 }
 
+function friendlyAuthError(error) {
+  console.error('Erro de autenticação:', error);
+
+  const rawMessage = typeof error?.message === 'string' ? error.message.trim() : '';
+  const code = String(error?.code || '').toLowerCase();
+  const normalized = rawMessage.toLowerCase();
+
+  if (normalized.includes('invalid login credentials')) return 'E-mail ou senha inválidos.';
+  if (normalized.includes('user already registered') || code.includes('user_already_exists')) return 'Este e-mail já possui cadastro. Use a opção de entrar ou recuperar a senha.';
+  if (normalized.includes('password should be') || code.includes('weak_password')) return 'A senha não atende aos requisitos mínimos de segurança.';
+  if (normalized.includes('email rate limit') || code.includes('over_email_send_rate_limit')) return 'Muitas mensagens foram solicitadas. Aguarde alguns minutos e tente novamente.';
+  if (normalized.includes('signup is disabled') || code.includes('signup_disabled')) return 'O cadastro está temporariamente desativado no Supabase.';
+  if (normalized.includes('database error saving new user') || code.includes('unexpected_failure')) return 'O cadastro chegou ao banco, mas a criação do perfil falhou. Aplique o arquivo sql/010_auth_onboarding_repair.sql e tente novamente.';
+  if (rawMessage && rawMessage !== '{}') return rawMessage;
+
+  return 'Não foi possível concluir o cadastro. Atualize a página e tente novamente. O detalhe técnico foi registrado no console do navegador.';
+}
+
+async function ensureWorkspace(client) {
+  const { error } = await client.rpc('ensure_user_workspace');
+  if (error) throw error;
+}
+
 async function handleLogin(data) {
   const client = requireSupabase();
   const email = clean(data.get('email')).toLowerCase();
@@ -38,6 +61,7 @@ async function handleLogin(data) {
 
   const { error } = await client.auth.signInWithPassword({ email, password });
   if (error) throw error;
+  await ensureWorkspace(client);
   window.location.replace(safeNextPath());
 }
 
@@ -60,12 +84,18 @@ async function handleSignup(data) {
     password,
     options: {
       emailRedirectTo: absoluteNextUrl(),
-      data: { full_name: fullName, whatsapp }
+      data: {
+        full_name: fullName,
+        whatsapp,
+        terms_accepted: true,
+        privacy_accepted: true
+      }
     }
   });
   if (error) throw error;
 
   if (result.session) {
+    await ensureWorkspace(client);
     window.location.replace(safeNextPath());
     return;
   }
@@ -112,10 +142,7 @@ if (form) {
       if (action === 'recover') await handleRecover(data);
       if (action === 'reset') await handleReset(data);
     } catch (error) {
-      const friendly = error?.message?.includes('Invalid login credentials')
-        ? 'E-mail ou senha inválidos.'
-        : error?.message || 'Não foi possível concluir a operação.';
-      showInlineMessage(message, friendly, 'error');
+      showInlineMessage(message, friendlyAuthError(error), 'error');
     } finally {
       setButtonLoading(button, false);
     }
