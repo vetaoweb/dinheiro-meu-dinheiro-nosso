@@ -14,17 +14,34 @@ function clean(value) {
   return String(value ?? '').trim();
 }
 
-async function handleLogin(data, button) {
+function safeNextPath(defaultPath = '/painel') {
+  const value = new URLSearchParams(window.location.search).get('next');
+  if (!value || !value.startsWith('/') || value.startsWith('//')) return defaultPath;
+
+  try {
+    const url = new URL(value, window.location.origin);
+    if (url.origin !== window.location.origin) return defaultPath;
+    return `${url.pathname}${url.search}${url.hash}`;
+  } catch {
+    return defaultPath;
+  }
+}
+
+function absoluteNextUrl() {
+  return new URL(safeNextPath(), window.location.origin).href;
+}
+
+async function handleLogin(data) {
   const client = requireSupabase();
   const email = clean(data.get('email')).toLowerCase();
   const password = String(data.get('password') ?? '');
 
   const { error } = await client.auth.signInWithPassword({ email, password });
   if (error) throw error;
-  window.location.replace('/painel');
+  window.location.replace(safeNextPath());
 }
 
-async function handleSignup(data, button) {
+async function handleSignup(data) {
   const client = requireSupabase();
   const fullName = clean(data.get('full_name'));
   const email = clean(data.get('email')).toLowerCase();
@@ -42,18 +59,19 @@ async function handleSignup(data, button) {
     email,
     password,
     options: {
-      emailRedirectTo: `${window.DMDN_ENV.APP_URL}/painel`,
+      emailRedirectTo: absoluteNextUrl(),
       data: { full_name: fullName, whatsapp }
     }
   });
   if (error) throw error;
 
   if (result.session) {
-    window.location.replace('/painel');
+    window.location.replace(safeNextPath());
     return;
   }
+
   form.reset();
-  showInlineMessage(message, 'Cadastro criado. Confirme o e-mail recebido antes de entrar.', 'success');
+  showInlineMessage(message, 'Cadastro criado. Confirme o e-mail recebido para continuar.', 'success');
 }
 
 async function handleRecover(data) {
@@ -89,10 +107,10 @@ if (form) {
     setButtonLoading(button, true);
 
     try {
-      if (action === 'login') await handleLogin(data, button);
-      if (action === 'signup') await handleSignup(data, button);
-      if (action === 'recover') await handleRecover(data, button);
-      if (action === 'reset') await handleReset(data, button);
+      if (action === 'login') await handleLogin(data);
+      if (action === 'signup') await handleSignup(data);
+      if (action === 'recover') await handleRecover(data);
+      if (action === 'reset') await handleReset(data);
     } catch (error) {
       const friendly = error?.message?.includes('Invalid login credentials')
         ? 'E-mail ou senha inválidos.'
