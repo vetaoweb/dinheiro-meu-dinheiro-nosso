@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#086647">
+  <title>Painel | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml"><link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/css/tokens.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/app.css">
+  <script src="/js/env.js"></script>
+</head>
+<body class="app-body" data-page="dashboard">
+  <div class="app-layout"><aside class="sidebar">
+  <a class="sidebar-logo" href="/painel"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+  <nav class="sidebar-nav" aria-label="Painel">
+    <a data-nav="dashboard" href="/painel"><span class="nav-icon">⌂</span>Painel</a>
+    <a data-nav="lancamentos" href="/lancamentos"><span class="nav-icon">⇅</span>Lançamentos</a>
+    <a data-nav="termometro" href="/termometro"><span class="nav-icon">◔</span>Termômetro 12 meses</a>
+    <a data-nav="configuracoes" href="/configuracoes"><span class="nav-icon">⚙</span>Configurações</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="profile-mini"><div class="avatar" data-profile-initials>MN</div><div><strong data-profile-name>Carregando...</strong><span data-profile-email></span></div></div>
+    <button class="btn sidebar-logout" type="button" data-logout>Sair</button>
+  </div>
+</aside><div class="main"><header class="topbar">
+  <button class="mobile-menu" data-mobile-menu type="button" aria-label="Abrir menu">☰</button>
+  <div class="space-switcher"><label for="space-select">Espaço financeiro</label><select class="select" id="space-select" data-space-select aria-label="Espaço financeiro"></select></div>
+  <span class="badge badge-green">Conexão segura</span>
+</header><main class="page">
+  <div class="page-header"><div><h1>Visão financeira</h1><p>Seu presente e os próximos 12 meses no mesmo lugar.</p></div><a class="btn btn-primary" href="/lancamentos">Novo lançamento</a></div>
+  <section class="kpi-grid" aria-label="Indicadores do mês">
+    <article class="card kpi"><span class="kpi-label">Saldo em contas</span><strong class="kpi-value" data-kpi-balance>—</strong><span class="kpi-note">Contas ativas</span></article>
+    <article class="card kpi"><span class="kpi-label">Entradas do mês</span><strong class="kpi-value text-positive" data-kpi-income>—</strong><span class="kpi-note">Realizadas e previstas</span></article>
+    <article class="card kpi"><span class="kpi-label">Saídas do mês</span><strong class="kpi-value text-negative" data-kpi-expense>—</strong><span class="kpi-note">Despesas, sem transferências</span></article>
+    <article class="card kpi"><span class="kpi-label">Economia do mês</span><strong class="kpi-value" data-kpi-savings>—</strong><span class="kpi-note">Destinada às metas</span></article>
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="card panel"><div class="panel-header"><div><h2>Saldo projetado</h2><p>Fechamento mensal no horizonte móvel.</p></div><a href="/termometro">Ver detalhes</a></div><div class="chart" data-projection-chart><div class="skeleton" style="width:100%;height:220px"></div></div></article>
+    <article class="card panel"><div class="panel-header"><div><h2>Saúde da projeção</h2><p>Meses sem saldo negativo.</p></div></div><div class="health-gauge"><div class="gauge-ring" data-health-gauge style="--gauge:0%"><div class="gauge-inner"><div><strong data-health-score>0%</strong><span data-health-label>Calculando...</span></div></div></div></div><div class="stack"><div class="row-between"><span class="muted">Menor saldo</span><strong data-minimum-balance>—</strong></div><div class="row-between"><span class="muted">Meses em risco</span><strong data-risk-months>—</strong></div><div class="row-between"><span class="muted">Economia em 12 meses</span><strong data-savings-12m>—</strong></div></div></article>
+  </section>
+
+  <section class="card table-card" style="margin-top:16px"><div class="panel-header" style="padding:20px 20px 0"><div><h2>Lançamentos recentes</h2><p>Últimas movimentações do espaço selecionado.</p></div></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th style="text-align:right">Valor</th></tr></thead><tbody data-recent-body></tbody></table><div class="empty-state" data-recent-empty hidden><strong>Nenhum lançamento ainda</strong>Cadastre sua primeira entrada ou despesa.</div></div></section>
+</main></div></div>
+  <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>
