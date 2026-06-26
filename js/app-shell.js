@@ -29,6 +29,11 @@ function bindMobileMenu() {
   });
 }
 
+async function ensureWorkspace(client) {
+  const { error } = await client.rpc('ensure_user_workspace');
+  if (error) throw error;
+}
+
 async function loadProfile(client, user) {
   const { data, error } = await client
     .from('profiles')
@@ -80,12 +85,14 @@ export async function initApp() {
   bindMobileMenu();
   bindLogout(client);
   try {
+    await ensureWorkspace(client);
     await Promise.all([
       loadProfile(client, appState.session.user),
       loadSpaces(client)
     ]);
   } catch (error) {
-    toast(error.message || 'Falha ao carregar sua conta.', 'error');
+    console.error('Falha ao inicializar a conta:', error);
+    toast(error?.message || 'Falha ao carregar sua conta.', 'error');
     throw error;
   }
   return { client, state: appState };
