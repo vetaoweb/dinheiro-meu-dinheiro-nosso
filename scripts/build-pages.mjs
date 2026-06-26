@@ -15,6 +15,7 @@ const staticEntries = [
   'cadastro.html',
   'recuperar-senha.html',
   'redefinir-senha.html',
+  'convite.html',
   'termos.html',
   'privacidade.html',
   'manifest.webmanifest',
@@ -26,6 +27,7 @@ const routeMap = new Map([
   ['/cadastro', `${basePath}/cadastro.html`],
   ['/recuperar-senha', `${basePath}/recuperar-senha.html`],
   ['/redefinir-senha', `${basePath}/redefinir-senha.html`],
+  ['/convite', `${basePath}/convite.html`],
   ['/termos', `${basePath}/termos.html`],
   ['/privacidade', `${basePath}/privacidade.html`],
   ['/painel', `${basePath}/app/dashboard.html`],
@@ -40,7 +42,8 @@ const exactAssets = new Map([
   ['/sw.js', `${basePath}/sw.js`],
   ['/index.html', `${basePath}/index.html`],
   ['/login.html', `${basePath}/login.html`],
-  ['/cadastro.html', `${basePath}/cadastro.html`]
+  ['/cadastro.html', `${basePath}/cadastro.html`],
+  ['/convite.html', `${basePath}/convite.html`]
 ]);
 
 await rm(out, { recursive: true, force: true });
