@@ -17,6 +17,8 @@
     { "source": "/cadastro", "destination": "/cadastro.html" },
     { "source": "/recuperar-senha", "destination": "/recuperar-senha.html" },
     { "source": "/redefinir-senha", "destination": "/redefinir-senha.html" },
+    { "source": "/termos", "destination": "/termos.html" },
+    { "source": "/privacidade", "destination": "/privacidade.html" },
     { "source": "/painel", "destination": "/app/dashboard.html" },
     { "source": "/lancamentos", "destination": "/app/lancamentos.html" },
     { "source": "/termometro", "destination": "/app/termometro.html" },
