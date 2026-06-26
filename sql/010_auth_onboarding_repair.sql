@@ -134,6 +134,8 @@ end;
 $$;
 
 revoke all on function public.ensure_user_workspace() from public;
+revoke execute on function public.ensure_user_workspace() from anon;
+revoke execute on function public.ensure_user_workspace() from service_role;
 grant execute on function public.ensure_user_workspace() to authenticated;
 
 commit;
