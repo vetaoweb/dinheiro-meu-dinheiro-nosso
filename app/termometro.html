@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#086647">
+  <title>Termômetro 12 meses | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml"><link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/css/tokens.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/app.css">
+  <script src="/js/env.js"></script>
+</head>
+<body class="app-body" data-page="termometro">
+  <div class="app-layout"><aside class="sidebar">
+  <a class="sidebar-logo" href="/painel"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+  <nav class="sidebar-nav" aria-label="Painel">
+    <a data-nav="dashboard" href="/painel"><span class="nav-icon">⌂</span>Painel</a>
+    <a data-nav="lancamentos" href="/lancamentos"><span class="nav-icon">⇅</span>Lançamentos</a>
+    <a data-nav="termometro" href="/termometro"><span class="nav-icon">◔</span>Termômetro 12 meses</a>
+    <a data-nav="configuracoes" href="/configuracoes"><span class="nav-icon">⚙</span>Configurações</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="profile-mini"><div class="avatar" data-profile-initials>MN</div><div><strong data-profile-name>Carregando...</strong><span data-profile-email></span></div></div>
+    <button class="btn sidebar-logout" type="button" data-logout>Sair</button>
+  </div>
+</aside><div class="main"><header class="topbar">
+  <button class="mobile-menu" data-mobile-menu type="button" aria-label="Abrir menu">☰</button>
+  <div class="space-switcher"><label for="space-select">Espaço financeiro</label><select class="select" id="space-select" data-space-select aria-label="Espaço financeiro"></select></div>
+  <span class="badge badge-green">Conexão segura</span>
+</header><main class="page">
+  <div class="page-header"><div><h1>Termômetro Financeiro</h1><p>Projeção autoral em horizonte móvel dos próximos 12 meses.</p></div><div class="row"><input class="input" type="month" data-start-month aria-label="Mês inicial"><button class="btn btn-primary" type="button" data-refresh-projection>Atualizar</button></div></div>
+  <section class="thermo-summary">
+    <article class="card thermo-status"><span class="muted">Menor saldo projetado</span><strong data-thermo-min>—</strong></article>
+    <article class="card thermo-status"><span class="muted">Meses em risco</span><strong data-thermo-risk>—</strong></article>
+    <article class="card thermo-status"><span class="muted">Economia no período</span><strong data-thermo-savings>—</strong></article>
+  </section>
+  <section class="card panel"><div class="panel-header"><div><h2>Evolução do saldo final</h2><p>Verde indica saldo não negativo; vermelho indica risco.</p></div></div><div class="chart" data-thermo-chart></div></section>
+  <section class="card table-card" style="margin-top:16px"><div class="table-wrap"><table class="thermo-table"><thead><tr><th>Mês</th><th style="text-align:right">Entradas</th><th style="text-align:right">Saídas</th><th style="text-align:right">Economias</th><th style="text-align:right">Fluxo líquido</th><th style="text-align:right">Saldo final</th><th>Situação</th></tr></thead><tbody data-thermo-body></tbody></table><div class="empty-state" data-thermo-empty hidden><strong>Sem dados suficientes</strong>Cadastre lançamentos previstos ou recorrências.</div></div></section>
+</main></div></div>
+  <script type="module" src="/js/termometro.js"></script>
+</body>
+</html>
