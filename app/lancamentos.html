@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#086647">
+  <title>Lançamentos | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml"><link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/css/tokens.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/app.css">
+  <script src="/js/env.js"></script>
+</head>
+<body class="app-body" data-page="lancamentos">
+  <div class="app-layout"><aside class="sidebar">
+  <a class="sidebar-logo" href="/painel"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+  <nav class="sidebar-nav" aria-label="Painel">
+    <a data-nav="dashboard" href="/painel"><span class="nav-icon">⌂</span>Painel</a>
+    <a data-nav="lancamentos" href="/lancamentos"><span class="nav-icon">⇅</span>Lançamentos</a>
+    <a data-nav="termometro" href="/termometro"><span class="nav-icon">◔</span>Termômetro 12 meses</a>
+    <a data-nav="configuracoes" href="/configuracoes"><span class="nav-icon">⚙</span>Configurações</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="profile-mini"><div class="avatar" data-profile-initials>MN</div><div><strong data-profile-name>Carregando...</strong><span data-profile-email></span></div></div>
+    <button class="btn sidebar-logout" type="button" data-logout>Sair</button>
+  </div>
+</aside><div class="main"><header class="topbar">
+  <button class="mobile-menu" data-mobile-menu type="button" aria-label="Abrir menu">☰</button>
+  <div class="space-switcher"><label for="space-select">Espaço financeiro</label><select class="select" id="space-select" data-space-select aria-label="Espaço financeiro"></select></div>
+  <span class="badge badge-green">Conexão segura</span>
+</header><main class="page">
+  <div class="page-header"><div><h1>Lançamentos</h1><p>Entradas, despesas, economias e transferências sem distorcer seus indicadores.</p></div><div class="row"><button class="btn btn-ghost" type="button" data-new-recurring>Nova recorrência</button><button class="btn btn-primary" type="button" data-new-transaction>Novo lançamento</button></div></div>
+  <section class="card table-card"><div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th style="text-align:right">Valor</th><th>Ações</th></tr></thead><tbody data-transactions-body></tbody></table><div class="empty-state" data-transactions-empty><strong>Nenhum lançamento encontrado</strong>Comece registrando uma entrada ou despesa.</div></div></section>
+<section class="card table-card" style="margin-top:16px"><div class="panel-header" style="padding:20px 20px 0"><div><h2>Recorrências</h2><p>Compromissos que alimentam automaticamente a projeção de 12 meses.</p></div></div><div class="table-wrap"><table><thead><tr><th>Descrição</th><th>Tipo</th><th>Frequência</th><th>Início</th><th style="text-align:right">Valor</th><th>Ações</th></tr></thead><tbody data-recurring-body></tbody></table><div class="empty-state" data-recurring-empty><strong>Nenhuma recorrência</strong>Cadastre salário, aluguel, mensalidades ou aportes programados.</div></div></section>
+</main>
+<div class="modal-backdrop hidden" data-modal>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="transaction-title">
+    <div class="modal-header"><h2 id="transaction-title">Novo lançamento</h2><button class="modal-close" type="button" data-modal-close aria-label="Fechar">×</button></div>
+    <form data-transaction-form>
+      <div class="modal-body form-grid">
+        <div class="field full"><label for="transaction-description">Descrição</label><input class="input" id="transaction-description" name="description" maxlength="140" required></div>
+        <div class="field"><label for="transaction-type">Tipo</label><select class="select" id="transaction-type" name="type" required><option value="expense">Saída</option><option value="income">Entrada</option><option value="saving">Economia</option><option value="transfer">Transferência</option></select></div>
+        <div class="field"><label for="transaction-amount">Valor</label><input class="input" id="transaction-amount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" required></div>
+        <div class="field"><label for="transaction-effective-date">Data</label><input class="input" id="transaction-effective-date" name="effective_date" type="date" required></div>
+        <div class="field"><label for="transaction-status">Status</label><select class="select" id="transaction-status" name="status"><option value="planned">Previsto</option><option value="confirmed">Confirmado</option><option value="paid">Pago/recebido</option></select></div>
+        <div class="field"><label for="transaction-category">Categoria</label><select class="select" id="transaction-category" name="category_id"></select></div>
+        <div class="field"><label for="transaction-account">Conta de origem</label><select class="select" id="transaction-account" name="account_id" required></select></div>
+        <div class="field hidden" data-destination-field><label for="transaction-destination">Conta de destino</label><select class="select" id="transaction-destination" name="destination_account_id"></select></div>
+        <div class="field full"><label for="transaction-notes">Observações</label><textarea class="textarea" id="transaction-notes" name="notes"></textarea></div>
+      </div>
+      <div class="modal-actions"><button class="btn btn-ghost" type="button" data-modal-close>Cancelar</button><button class="btn btn-primary" type="submit">Salvar lançamento</button></div>
+    </form>
+  </section>
+</div></div></div>
+<div class="modal-backdrop hidden" data-recurring-modal>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="recurring-title">
+    <div class="modal-header"><h2 id="recurring-title">Nova recorrência</h2><button class="modal-close" type="button" data-recurring-close aria-label="Fechar">×</button></div>
+    <form data-recurring-form>
+      <div class="modal-body form-grid">
+        <div class="field full"><label for="recurring-description">Descrição</label><input class="input" id="recurring-description" name="description" maxlength="140" required></div>
+        <div class="field"><label for="recurring-type">Tipo</label><select class="select" id="recurring-type" name="type" required><option value="expense">Saída</option><option value="income">Entrada</option><option value="saving">Economia</option></select></div>
+        <div class="field"><label for="recurring-amount">Valor</label><input class="input" id="recurring-amount" name="amount" type="number" min="0.01" step="0.01" required></div>
+        <div class="field"><label for="recurring-account">Conta</label><select class="select" id="recurring-account" name="account_id" required></select></div>
+        <div class="field"><label for="recurring-category">Categoria</label><select class="select" id="recurring-category" name="category_id"></select></div>
+        <div class="field"><label for="recurring-frequency">Frequência</label><select class="select" id="recurring-frequency" name="frequency"><option value="monthly">Mensal</option><option value="weekly">Semanal</option><option value="yearly">Anual</option></select></div>
+        <div class="field"><label for="recurring-interval">Repetir a cada</label><input class="input" id="recurring-interval" name="interval_count" type="number" min="1" max="60" value="1" required></div>
+        <div class="field"><label for="recurring-start">Data inicial</label><input class="input" id="recurring-start" name="start_date" type="date" required></div>
+        <div class="field"><label for="recurring-end">Data final (opcional)</label><input class="input" id="recurring-end" name="end_date" type="date"></div>
+      </div>
+      <div class="modal-actions"><button class="btn btn-ghost" type="button" data-recurring-close>Cancelar</button><button class="btn btn-primary" type="submit">Salvar recorrência</button></div>
+    </form>
+  </section>
+</div>
+  <script type="module" src="/js/lancamentos.js"></script>
+</body>
+</html>
