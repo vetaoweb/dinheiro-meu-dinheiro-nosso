@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+:root {
+  --green-900: #064734;
+  --green-700: #086647;
+  --green-500: #3B9B6B;
+  --green-100: #DCEFE5;
+  --blue-900: #1B3547;
+  --blue-700: #294B63;
+  --blue-100: #DCE7EB;
+  --gold-600: #C99A3D;
+  --gold-100: #F5EBCF;
+  --red-700: #B54D4A;
+  --red-100: #F7DEDD;
+  --paper: #F6F3E9;
+  --surface: #FFFDF7;
+  --surface-strong: #FFFFFF;
+  --ink: #17211D;
+  --muted: #65736D;
+  --border: #D9DED8;
+  --shadow-sm: 0 1px 2px rgba(23, 33, 29, .06), 0 8px 24px rgba(23, 33, 29, .05);
+  --shadow-md: 0 16px 42px rgba(23, 33, 29, .11);
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --content: 1180px;
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+}
