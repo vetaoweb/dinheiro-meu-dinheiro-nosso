@@ -4,85 +4,66 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 
 **Slogan:** Organize o seu. Construa o nosso.
 
-## Estado desta entrega
+## Fundação funcional v0.1.0
 
-Esta é a fundação funcional **v0.1.0**:
-
-- marca e identidade visual próprias;
+- identidade visual própria;
 - landing page responsiva;
-- cadastro, login, recuperação e redefinição de senha;
+- cadastro, login e recuperação de acesso;
 - painel autenticado;
-- cadastro e listagem de lançamentos;
-- Termômetro Financeiro com projeção móvel dos próximos 12 meses;
-- seleção de espaço financeiro pessoal, familiar ou profissional;
-- migrations PostgreSQL/Supabase;
-- RLS e isolamento por espaço financeiro;
-- documentação de implantação.
+- contas, lançamentos e recorrências;
+- espaços pessoal, familiar e profissional;
+- Termômetro Financeiro com horizonte móvel de 12 meses;
+- banco relacional com isolamento por espaço;
+- auditoria, exclusão lógica e páginas legais;
+- configuração para Vercel e PWA.
 
-## Configuração obrigatória
+## Conexão
 
-Edite `js/env.js` e substitua:
+O frontend está conectado ao projeto Supabase informado para este sistema. A configuração pública está em `js/env.js`.
 
-```js
-SUPABASE_ANON_KEY: '__INFORME_A_CHAVE_ANON_PUBLICA__'
-```
+## Instalação do banco
 
-A URL pública já está configurada:
+Execute primeiro `sql/000_auditoria.sql`, que faz somente consultas.
 
-```text
-https://bcsctqfelxlzwcskgmmp.supabase.co
-```
+Depois execute no SQL Editor, um arquivo por vez:
 
-A chave `anon`/`publishable` é pública e pode ficar no frontend. **Nunca coloque a `service_role` no repositório ou no navegador.**
-
-## Banco de dados
-
-Execute no SQL Editor do Supabase, nesta ordem:
-
-1. `sql/000_auditoria.sql` — somente leitura, para verificar o estado atual;
-2. `sql/001_base.sql`;
-3. `sql/002_auth_profiles.sql`;
-4. `sql/003_financial_core.sql`;
-5. `sql/004_projection.sql`;
-6. `sql/005_rls.sql`;
-7. `sql/006_seed.sql`.
+1. `sql/001_base.sql`
+2. `sql/002_auth_profiles.sql`
+3. `sql/003_financial_core.sql`
+4. `sql/003a_integrity.sql`
+5. `sql/004_projection.sql`
+6. `sql/004a_projection_fix.sql`
+7. `sql/005_rls.sql`
+8. `sql/006_seed.sql`
+9. `sql/006a_existing_users.sql`
+10. `sql/007_verificacao.sql`
 
 ## Execução local
-
-Não abra os arquivos diretamente com `file://`. Use um servidor HTTP local:
 
 ```bash
 python -m http.server 8080
 ```
 
-Depois acesse `http://localhost:8080`.
+Acesse `http://localhost:8080`.
 
-## Deploy na Vercel
+## Publicação na Vercel
 
-O projeto é estático. Importe o repositório na Vercel e mantenha:
+Importe o repositório como projeto estático:
 
 - Framework Preset: `Other`;
 - Build Command: vazio;
 - Output Directory: `.`;
 - Root Directory: `.`.
 
+Depois cadastre a URL publicada no Supabase em **Authentication → URL Configuration**.
+
 ## Estrutura
 
 ```text
-assets/      identidade visual em SVG
+assets/      logotipo e ícone
 app/         páginas autenticadas
 css/         design system e estilos
-js/          autenticação, Supabase e módulos funcionais
-sql/         auditoria, migrations, RLS e seeds
-docs/        arquitetura e implantação
+js/          autenticação e módulos funcionais
+sql/         auditoria, migrations e verificação
+docs/        implantação
 ```
-
-## Segurança
-
-- RLS habilitada nas tabelas operacionais;
-- dados isolados por `financial_space_id`;
-- `auth.uid()` como identidade real;
-- nenhum segredo administrativo no frontend;
-- validação de participação e papel no banco;
-- exclusão lógica para registros financeiros;
-- funções auxiliares com `search_path` fixado.
