@@ -15,7 +15,8 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 - Termômetro Financeiro com horizonte móvel de 12 meses;
 - banco relacional com isolamento por espaço;
 - auditoria, exclusão lógica e páginas legais;
-- configuração para Vercel e PWA.
+- publicação automática no GitHub Pages;
+- PWA com manifesto e service worker.
 
 ## Conexão
 
@@ -47,16 +48,29 @@ python -m http.server 8080
 
 Acesse `http://localhost:8080`.
 
-## Publicação na Vercel
+## Publicação no GitHub Pages
 
-Importe o repositório como projeto estático:
+O workflow `.github/workflows/pages.yml` prepara automaticamente a versão compatível com o endereço de projeto do GitHub Pages e publica a cada alteração na branch `main`.
 
-- Framework Preset: `Other`;
-- Build Command: vazio;
-- Output Directory: `.`;
-- Root Directory: `.`.
+No GitHub, abra:
 
-Depois cadastre a URL publicada no Supabase em **Authentication → URL Configuration**.
+```text
+Settings → Pages → Build and deployment → Source: GitHub Actions
+```
+
+A URL prevista é:
+
+```text
+https://vetaoweb.github.io/dinheiro-meu-dinheiro-nosso/
+```
+
+No Supabase, cadastre essa URL em **Authentication → URL Configuration** como `Site URL` e adicione também:
+
+```text
+https://vetaoweb.github.io/dinheiro-meu-dinheiro-nosso/**
+```
+
+em `Redirect URLs`.
 
 ## Estrutura
 
@@ -65,6 +79,7 @@ assets/      logotipo e ícone
 app/         páginas autenticadas
 css/         design system e estilos
 js/          autenticação e módulos funcionais
+scripts/     preparação da versão GitHub Pages
 sql/         auditoria, migrations e verificação
-docs/        implantação
+docs/        documentação
 ```
