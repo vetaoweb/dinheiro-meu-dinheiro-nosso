@@ -1,0 +1,102 @@
+.invite-page {
+  min-height: 100vh;
+  padding: 32px 18px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(59, 155, 107, .22), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(41, 75, 99, .18), transparent 38%),
+    var(--paper);
+}
+
+.invite-brand {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  width: min(340px, calc(100vw - 48px));
+}
+
+.invite-card {
+  width: min(100%, 720px);
+  padding: clamp(24px, 6vw, 48px);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.invite-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--green-700), var(--blue-700));
+  font: 800 1.25rem var(--font-display);
+  box-shadow: 0 18px 36px rgba(8, 102, 71, .18);
+}
+
+.invite-card h1 {
+  margin: 0;
+  font: 800 clamp(2rem, 6vw, 3.5rem)/1.04 var(--font-display);
+  letter-spacing: -.045em;
+}
+
+.invite-lead {
+  max-width: 580px;
+  margin: 14px auto 24px;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.invite-details {
+  margin: 28px 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  text-align: left;
+}
+
+.invite-details div {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #F7F8F3;
+}
+
+.invite-details div:last-child {
+  grid-column: 1 / -1;
+}
+
+.invite-details span,
+.invite-details strong {
+  display: block;
+}
+
+.invite-details span {
+  color: var(--muted);
+  font: 700 .78rem var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.invite-details strong {
+  margin-top: 5px;
+  font: 800 1rem var(--font-display);
+}
+
+.invite-actions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (max-width: 620px) {
+  .invite-page { padding-top: 116px; align-items: start; }
+  .invite-brand { width: 265px; }
+  .invite-details { grid-template-columns: 1fr; }
+  .invite-details div:last-child { grid-column: auto; }
+  .invite-actions { align-items: stretch; flex-direction: column; }
+}
