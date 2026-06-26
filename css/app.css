@@ -86,6 +86,17 @@ td.money { text-align: right; font-weight: 700; font-variant-numeric: tabular-nu
 .settings-menu button { width: 100%; border: 0; padding: 12px; border-radius: 10px; text-align: left; color: var(--muted); background: transparent; font-weight: 700; }
 .settings-menu button.active { color: var(--green-900); background: var(--green-100); }
 
+.collaboration-form { margin-bottom: 18px; padding: 18px; border-radius: 14px; background: #F3F6F2; border: 1px solid var(--border); }
+.share-link-box { margin: 18px 0; padding: 18px; border-radius: 14px; background: var(--green-100); border: 1px solid #B8DDC8; }
+.share-link-box .help { margin: 8px 0 0; }
+.copy-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.subsection-title { margin: 24px 0 10px; font: 800 1rem var(--font-display); }
+.invitation-list { display: grid; gap: 12px; }
+.received-invitation { padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border: 1px solid var(--border); border-radius: 14px; background: #F7F8F3; }
+.received-invitation h3 { margin: 8px 0 4px; font: 800 1.05rem var(--font-display); }
+.received-invitation p { margin: 0; color: var(--muted); }
+.received-invitation small { display: block; margin-top: 5px; color: var(--muted); }
+
 @media (max-width: 1100px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .dashboard-grid { grid-template-columns: 1fr; }
@@ -109,4 +120,7 @@ td.money { text-align: right; font-weight: 700; font-variant-numeric: tabular-nu
   .panel { padding: 16px; }
   .chart { gap: 4px; }
   .chart-label { transform: rotate(-45deg); transform-origin: center; bottom: -34px; }
+  .copy-field { grid-template-columns: 1fr; }
+  .received-invitation { align-items: stretch; flex-direction: column; }
+  .received-invitation .btn { width: 100%; }
 }
