@@ -71,35 +71,34 @@ security invoker
 set search_path = public
 as $$
 declare
-  v_current_month date := date_trunc('month', current_date)::date;
-  v_requested_month date;
-  v_horizon_exclusive date;
-  v_opening_balance numeric(14,2);
+  current_month date := date_trunc('month', current_date)::date;
+  requested_month date;
+  horizon_end date;
+  account_balance numeric(14,2);
 begin
   if not public.is_space_member(p_space_id) then
     raise exception 'Acesso negado ao espaço financeiro.' using errcode = '42501';
   end if;
 
-  v_requested_month := greatest(
-    coalesce(date_trunc('month', p_start_month)::date, v_current_month),
-    v_current_month
+  requested_month := greatest(
+    coalesce(date_trunc('month', p_start_month)::date, current_month),
+    current_month
   );
-  v_horizon_exclusive := (v_requested_month + interval '12 months')::date;
+  horizon_end := (requested_month + interval '12 months')::date;
 
   select coalesce(sum(a.current_balance), 0)::numeric(14,2)
-    into v_opening_balance
+    into account_balance
     from public.accounts a
    where a.financial_space_id = p_space_id
      and a.status = 'active'
      and a.deleted_at is null
-     and a.include_in_projection = true;
+     and a.include_in_projection;
 
   return query
-  with recursive
-  months as (
+  with months as (
     select generate_series(
-      v_current_month::timestamp,
-      (v_horizon_exclusive - interval '1 month')::timestamp,
+      current_month::timestamp,
+      (horizon_end - interval '1 month')::timestamp,
       interval '1 month'
     )::date as month_start
   ),
@@ -112,53 +111,45 @@ begin
     where t.financial_space_id = p_space_id
       and t.deleted_at is null
       and t.status in ('planned','confirmed')
-      and greatest(t.effective_date, current_date) < v_horizon_exclusive
+      and greatest(t.effective_date, current_date) < horizon_end
     group by 1, 2
   ),
-  recurring_occurrences as (
+  recurring as (
     select
-      r.id as recurring_id,
+      date_trunc('month', gs.occurrence_at)::date as month_start,
       r.type,
-      r.amount,
-      occurrence_at::date as occurrence_date
+      sum(r.amount)::numeric(14,2) as amount
     from public.recurring_transactions r
     cross join lateral generate_series(
       r.start_date::timestamp,
-      least(coalesce(r.end_date, v_horizon_exclusive - 1), v_horizon_exclusive - 1)::timestamp,
+      least(coalesce(r.end_date, horizon_end - 1), horizon_end - 1)::timestamp,
       case r.frequency
         when 'weekly' then make_interval(days => 7 * r.interval_count)
         when 'monthly' then make_interval(months => r.interval_count)
         when 'yearly' then make_interval(years => r.interval_count)
       end
-    ) as occurrence_at
+    ) as gs(occurrence_at)
     where r.financial_space_id = p_space_id
       and r.status = 'active'
       and r.deleted_at is null
-      and occurrence_at::date >= current_date
-      and occurrence_at::date < v_horizon_exclusive
+      and gs.occurrence_at::date >= current_date
+      and gs.occurrence_at::date < horizon_end
       and not exists (
         select 1
-          from public.transactions actual
-         where actual.recurring_transaction_id = r.id
-           and actual.effective_date = occurrence_at::date
-           and actual.deleted_at is null
-           and actual.status <> 'cancelled'
+          from public.transactions t
+         where t.recurring_transaction_id = r.id
+           and t.effective_date = gs.occurrence_at::date
+           and t.deleted_at is null
+           and t.status <> 'cancelled'
       )
-  ),
-  recurring_monthly as (
-    select
-      date_trunc('month', occurrence_date)::date as month_start,
-      type,
-      sum(amount)::numeric(14,2) as amount
-    from recurring_occurrences
     group by 1, 2
   ),
   combined as (
     select * from one_time
     union all
-    select * from recurring_monthly
+    select * from recurring
   ),
-  monthly_flows as (
+  flow as (
     select
       m.month_start,
       coalesce(sum(c.amount) filter (where c.type = 'income'), 0)::numeric(14,2) as income,
@@ -169,43 +160,22 @@ begin
     left join combined c on c.month_start = m.month_start
     group by m.month_start
   ),
-  numbered as (
+  calculated as (
     select
-      row_number() over (order by mf.month_start) as rn,
-      mf.*,
-      (mf.income - mf.expense - mf.savings)::numeric(14,2) as net_cash_flow
-    from monthly_flows mf
+      f.*,
+      (f.income - f.expense - f.savings)::numeric(14,2) as net_cash_flow
+    from flow f
   ),
-  balances as (
+  balance as (
     select
-      n.rn,
-      n.month_start,
-      v_opening_balance::numeric(14,2) as opening_balance,
-      n.income,
-      n.expense,
-      n.savings,
-      0::numeric(14,2) as transfers_in,
-      n.transfers_out,
-      n.net_cash_flow,
-      (v_opening_balance + n.net_cash_flow)::numeric(14,2) as closing_balance
-    from numbered n
-    where n.rn = 1
-
-    union all
-
-    select
-      n.rn,
-      n.month_start,
-      b.closing_balance as opening_balance,
-      n.income,
-      n.expense,
-      n.savings,
-      0::numeric(14,2) as transfers_in,
-      n.transfers_out,
-      n.net_cash_flow,
-      (b.closing_balance + n.net_cash_flow)::numeric(14,2) as closing_balance
-    from numbered n
-    join balances b on n.rn = b.rn + 1
+      c.*,
+      (account_balance + coalesce(sum(c.net_cash_flow) over (
+        order by c.month_start rows between unbounded preceding and 1 preceding
+      ), 0))::numeric(14,2) as opening_balance,
+      (account_balance + sum(c.net_cash_flow) over (
+        order by c.month_start rows between unbounded preceding and current row
+      ))::numeric(14,2) as closing_balance
+    from calculated c
   )
   select
     b.month_start,
@@ -213,12 +183,12 @@ begin
     b.income,
     b.expense,
     b.savings,
-    b.transfers_in,
+    0::numeric(14,2) as transfers_in,
     b.transfers_out,
     b.net_cash_flow,
     b.closing_balance
-  from balances b
-  where b.month_start >= v_requested_month
+  from balance b
+  where b.month_start >= requested_month
   order by b.month_start
   limit 12;
 end;
