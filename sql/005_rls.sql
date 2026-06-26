@@ -149,25 +149,39 @@ on public.audit_logs for select
 to authenticated
 using (public.can_manage_space(financial_space_id));
 
-revoke all on all tables in schema public from anon;
-revoke all on all tables in schema public from authenticated;
+revoke all on table
+  public.profiles,
+  public.financial_spaces,
+  public.space_members,
+  public.accounts,
+  public.categories,
+  public.transactions,
+  public.recurring_transactions,
+  public.goals,
+  public.privacy_requests,
+  public.audit_logs
+from anon, authenticated;
 
- grant select on public.profiles to authenticated;
- grant update (full_name, whatsapp, avatar_path, last_access_at, updated_at) on public.profiles to authenticated;
- grant select, update on public.financial_spaces to authenticated;
- grant select, insert, update, delete on public.space_members to authenticated;
- grant select, insert, update on public.accounts to authenticated;
- grant select, insert, update on public.categories to authenticated;
- grant select, insert, update on public.transactions to authenticated;
- grant select, insert, update on public.recurring_transactions to authenticated;
- grant select, insert, update on public.goals to authenticated;
- grant select, insert on public.privacy_requests to authenticated;
- grant select on public.audit_logs to authenticated;
- grant usage, select on all sequences in schema public to authenticated;
+grant select on public.profiles to authenticated;
+grant update (full_name, whatsapp, avatar_path, last_access_at, updated_at) on public.profiles to authenticated;
+grant select, update on public.financial_spaces to authenticated;
+grant select, insert, update, delete on public.space_members to authenticated;
+grant select, insert, update on public.accounts to authenticated;
+grant select, insert, update on public.categories to authenticated;
+grant select, insert, update on public.transactions to authenticated;
+grant select, insert, update on public.recurring_transactions to authenticated;
+grant select, insert, update on public.goals to authenticated;
+grant select, insert on public.privacy_requests to authenticated;
+grant select on public.audit_logs to authenticated;
 
- grant execute on function public.is_space_member(uuid) to authenticated;
- grant execute on function public.can_edit_space(uuid) to authenticated;
- grant execute on function public.can_manage_space(uuid) to authenticated;
- grant execute on function public.get_12_month_projection(uuid, date) to authenticated;
+revoke all on function public.is_space_member(uuid) from public;
+revoke all on function public.can_edit_space(uuid) from public;
+revoke all on function public.can_manage_space(uuid) from public;
+revoke all on function public.get_12_month_projection(uuid, date) from public;
+
+grant execute on function public.is_space_member(uuid) to authenticated;
+grant execute on function public.can_edit_space(uuid) to authenticated;
+grant execute on function public.can_manage_space(uuid) to authenticated;
+grant execute on function public.get_12_month_projection(uuid, date) to authenticated;
 
 commit;
