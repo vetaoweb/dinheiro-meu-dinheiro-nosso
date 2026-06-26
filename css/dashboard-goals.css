@@ -1,0 +1,55 @@
+.dashboard-goals-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dashboard-goal {
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #F7F8F3;
+}
+
+.dashboard-goal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dashboard-goal h3 {
+  margin: 0;
+  font: 800 1rem var(--font-display);
+}
+
+.dashboard-goal strong {
+  font-family: var(--font-display);
+}
+
+.dashboard-goal-progress {
+  height: 9px;
+  margin: 14px 0 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #E0E5E0;
+}
+
+.dashboard-goal-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green-500), var(--blue-700));
+}
+
+.dashboard-goal-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+@media (max-width: 1000px) {
+  .dashboard-goals-list { grid-template-columns: 1fr; }
+}
