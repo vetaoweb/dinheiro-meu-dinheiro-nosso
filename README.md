@@ -32,11 +32,12 @@ Depois execute no SQL Editor, um arquivo por vez:
 3. `sql/003_financial_core.sql`
 4. `sql/003a_integrity.sql`
 5. `sql/004_projection.sql`
-6. `sql/004a_projection_fix.sql`
-7. `sql/005_rls.sql`
-8. `sql/006_seed.sql`
-9. `sql/006a_existing_users.sql`
-10. `sql/007_verificacao.sql`
+6. `sql/005_rls.sql`
+7. `sql/006_seed.sql`
+8. `sql/006a_existing_users.sql`
+9. `sql/007_verificacao.sql`
+
+Interrompa a sequência no primeiro erro e preserve a mensagem completa antes de executar o arquivo seguinte.
 
 ## Execução local
 
