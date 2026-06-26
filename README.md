@@ -4,7 +4,7 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 
 **Slogan:** Organize o seu. Construa o nosso.
 
-## Fundação funcional v0.1.0
+## Fundação funcional v0.2.0
 
 - identidade visual própria;
 - landing page responsiva;
@@ -12,6 +12,8 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 - painel autenticado;
 - contas, lançamentos e recorrências;
 - espaços pessoal, familiar e profissional;
+- convites por link para espaços compartilhados;
+- integrantes com papéis de administrador, editor ou visualizador;
 - Termômetro Financeiro com horizonte móvel de 12 meses;
 - banco relacional com isolamento por espaço;
 - auditoria, exclusão lógica e páginas legais;
@@ -22,7 +24,7 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 
 O frontend está conectado ao projeto Supabase informado para este sistema. A configuração pública está em `js/env.js`.
 
-## Instalação do banco
+## Instalação inicial do banco
 
 Execute primeiro `sql/000_auditoria.sql`, que faz somente consultas.
 
@@ -37,8 +39,29 @@ Depois execute no SQL Editor, um arquivo por vez:
 7. `sql/006_seed.sql`
 8. `sql/006a_existing_users.sql`
 9. `sql/007_verificacao.sql`
+10. `sql/008_collaboration.sql`
+11. `sql/009_verificacao_colaboracao.sql`
+
+Quem já concluiu a instalação até o arquivo `007_verificacao.sql` precisa executar somente:
+
+```text
+sql/008_collaboration.sql
+sql/009_verificacao_colaboracao.sql
+```
 
 Interrompa a sequência no primeiro erro e preserve a mensagem completa antes de executar o arquivo seguinte.
+
+## Colaboração
+
+Em um espaço familiar ou profissional, proprietários e administradores podem:
+
+- informar o e-mail da pessoa;
+- escolher a permissão;
+- gerar um link com validade de sete dias;
+- copiar e enviar o link manualmente;
+- acompanhar e cancelar convites pendentes.
+
+O convite só pode ser aceito por uma conta cadastrada com o mesmo e-mail. O espaço pessoal continua privado e não aceita outros integrantes.
 
 ## Execução local
 
