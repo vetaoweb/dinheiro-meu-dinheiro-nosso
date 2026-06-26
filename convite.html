@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#086647">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Convite | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/invite.css">
+  <script src="/js/env.js"></script>
+</head>
+<body>
+  <main class="invite-page">
+    <a class="invite-brand" href="/"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+
+    <section class="card invite-card" aria-live="polite">
+      <div class="invite-icon" aria-hidden="true">MN</div>
+      <p class="eyebrow">Convite para espaço compartilhado</p>
+      <h1 data-invite-title>Carregando convite...</h1>
+      <p class="invite-lead" data-invite-description>Estamos verificando os dados com segurança.</p>
+
+      <div class="invite-details" data-invite-details hidden>
+        <div><span>Espaço</span><strong data-invite-space>—</strong></div>
+        <div><span>Tipo</span><strong data-invite-type>—</strong></div>
+        <div><span>Permissão</span><strong data-invite-role>—</strong></div>
+        <div><span>E-mail convidado</span><strong data-invite-email>—</strong></div>
+        <div><span>Validade</span><strong data-invite-expiry>—</strong></div>
+      </div>
+
+      <div class="alert alert-info" data-invite-message hidden></div>
+
+      <div class="invite-actions" data-guest-actions hidden>
+        <a class="btn btn-primary" data-login-link href="/entrar">Entrar para aceitar</a>
+        <a class="btn btn-ghost" data-signup-link href="/cadastro">Criar conta</a>
+      </div>
+
+      <div class="invite-actions" data-member-actions hidden>
+        <button class="btn btn-primary" type="button" data-accept-invite>Aceitar convite</button>
+        <a class="btn btn-ghost" href="/painel">Ir para o painel</a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/convite.js"></script>
+</body>
+</html>
