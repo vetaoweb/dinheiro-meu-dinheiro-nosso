@@ -43,17 +43,44 @@ function renderRecent(rows) {
   </tr>`).join('');
 }
 
+function renderGoals(rows) {
+  const list = document.querySelector('[data-dashboard-goals-list]');
+  const empty = document.querySelector('[data-dashboard-goals-empty]');
+  if (!list || !empty) return;
+
+  const active = rows.filter((goal) => goal.status === 'active').slice(0, 3);
+  if (!active.length) {
+    list.innerHTML = '';
+    empty.hidden = false;
+    return;
+  }
+
+  empty.hidden = true;
+  list.innerHTML = active.map((goal) => {
+    const target = Number(goal.target_amount || 0);
+    const current = Number(goal.current_amount || 0);
+    const progress = target > 0 ? Math.max(0, Math.min(100, Math.round((current / target) * 100))) : 0;
+    return `<article class="dashboard-goal">
+      <div class="dashboard-goal-head"><h3>${escapeHtml(goal.name)}</h3><strong>${progress}%</strong></div>
+      <div class="dashboard-goal-progress"><i style="width:${progress}%"></i></div>
+      <div class="dashboard-goal-foot"><span>${formatMoney(current)}</span><span>de ${formatMoney(target)}</span></div>
+    </article>`;
+  }).join('');
+}
+
 async function loadDashboard(client, space) {
   if (!space) return;
-  const [projectionResult, transactionResult, accountResult] = await Promise.all([
+  const [projectionResult, transactionResult, accountResult, goalResult] = await Promise.all([
     client.rpc('get_12_month_projection', { p_space_id: space.id, p_start_month: new Date().toISOString().slice(0, 10) }),
     client.from('transactions').select('id, description, type, amount, effective_date, status').eq('financial_space_id', space.id).is('deleted_at', null).order('effective_date', { ascending: false }).limit(8),
-    client.from('accounts').select('current_balance').eq('financial_space_id', space.id).eq('status', 'active')
+    client.from('accounts').select('current_balance').eq('financial_space_id', space.id).eq('status', 'active'),
+    client.from('goals').select('id, name, target_amount, current_amount, target_date, status').eq('financial_space_id', space.id).is('deleted_at', null).order('created_at', { ascending: false })
   ]);
 
   if (projectionResult.error) throw projectionResult.error;
   if (transactionResult.error) throw transactionResult.error;
   if (accountResult.error) throw accountResult.error;
+  if (goalResult.error) throw goalResult.error;
 
   const rows = projectionResult.data ?? [];
   const current = rows[0] ?? {};
@@ -78,6 +105,7 @@ async function loadDashboard(client, space) {
 
   renderChart(rows);
   renderRecent(transactionResult.data ?? []);
+  renderGoals(goalResult.data ?? []);
 }
 
 initApp().then(({ client, state }) => loadDashboard(client, state.currentSpace)).catch((error) => console.error(error));
