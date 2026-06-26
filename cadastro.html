@@ -14,12 +14,15 @@
       <div class="auth-box">
         <h1>Crie sua conta</h1><p>Seu primeiro espaço financeiro pessoal será criado automaticamente.</p>
         <div data-auth-message class="alert alert-info" hidden></div>
-        <form class="auth-form" data-auth-form="signup" novalidate><div class="field"><label for="full_name">Nome completo</label><input class="input" id="full_name" name="full_name" autocomplete="name" required></div>
-       <div class="field"><label for="email">E-mail</label><input class="input" id="email" name="email" type="email" autocomplete="email" required></div>
-       <div class="field"><label for="whatsapp">WhatsApp</label><input class="input" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(61) 99999-9999"></div>
-       <div class="field"><label for="password">Senha</label><input class="input" id="password" name="password" type="password" minlength="8" autocomplete="new-password" required><span class="help">Use ao menos 8 caracteres.</span></div>
-       <div class="field"><label for="password_confirmation">Confirme a senha</label><input class="input" id="password_confirmation" name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required></div>
-       <label class="checkbox"><input name="terms" type="checkbox" required><span>Li e aceito os Termos de Uso e a Política de Privacidade.</span></label><button class="btn btn-primary btn-block" type="submit">Criar conta</button></form>
+        <form class="auth-form" data-auth-form="signup" novalidate>
+          <div class="field"><label for="full_name">Nome completo</label><input class="input" id="full_name" name="full_name" autocomplete="name" required></div>
+          <div class="field"><label for="email">E-mail</label><input class="input" id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="whatsapp">WhatsApp</label><input class="input" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(61) 99999-9999"></div>
+          <div class="field"><label for="password">Senha</label><input class="input" id="password" name="password" type="password" minlength="8" autocomplete="new-password" required><span class="help">Use ao menos 8 caracteres.</span></div>
+          <div class="field"><label for="password_confirmation">Confirme a senha</label><input class="input" id="password_confirmation" name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required></div>
+          <label class="checkbox"><input name="terms" type="checkbox" required><span>Li e aceito os <a href="/termos" target="_blank" rel="noopener">Termos de Uso</a> e a <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
+          <button class="btn btn-primary btn-block" type="submit">Criar conta</button>
+        </form>
         <div class="auth-links"><a href="/entrar">Já tenho uma conta</a><a href="/">Voltar ao início</a></div>
       </div>
     </section>
