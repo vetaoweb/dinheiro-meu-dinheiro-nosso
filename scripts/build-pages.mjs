@@ -32,6 +32,7 @@ const routeMap = new Map([
   ['/privacidade', `${basePath}/privacidade.html`],
   ['/painel', `${basePath}/app/dashboard.html`],
   ['/lancamentos', `${basePath}/app/lancamentos.html`],
+  ['/metas', `${basePath}/app/metas.html`],
   ['/termometro', `${basePath}/app/termometro.html`],
   ['/configuracoes', `${basePath}/app/configuracoes.html`]
 ]);
