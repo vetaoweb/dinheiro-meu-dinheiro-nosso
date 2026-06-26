@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#086647">
+  <title>Crie sua conta | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/tokens.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/auth.css">
+  <script src="/js/env.js"></script>
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-panel">
+      <a class="auth-brand" href="/"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+      <div class="auth-box">
+        <h1>Crie sua conta</h1><p>Seu primeiro espaço financeiro pessoal será criado automaticamente.</p>
+        <div data-auth-message class="alert alert-info" hidden></div>
+        <form class="auth-form" data-auth-form="signup" novalidate><div class="field"><label for="full_name">Nome completo</label><input class="input" id="full_name" name="full_name" autocomplete="name" required></div>
+       <div class="field"><label for="email">E-mail</label><input class="input" id="email" name="email" type="email" autocomplete="email" required></div>
+       <div class="field"><label for="whatsapp">WhatsApp</label><input class="input" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(61) 99999-9999"></div>
+       <div class="field"><label for="password">Senha</label><input class="input" id="password" name="password" type="password" minlength="8" autocomplete="new-password" required><span class="help">Use ao menos 8 caracteres.</span></div>
+       <div class="field"><label for="password_confirmation">Confirme a senha</label><input class="input" id="password_confirmation" name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required></div>
+       <label class="checkbox"><input name="terms" type="checkbox" required><span>Li e aceito os Termos de Uso e a Política de Privacidade.</span></label><button class="btn btn-primary btn-block" type="submit">Criar conta</button></form>
+        <div class="auth-links"><a href="/entrar">Já tenho uma conta</a><a href="/">Voltar ao início</a></div>
+      </div>
+    </section>
+    <aside class="auth-visual"><div class="auth-message"><h2>O seu continua seu. O nosso ganha planejamento.</h2><p>Comece individualmente e convide alguém apenas quando decidir compartilhar uma despesa, meta ou patrimônio.</p><div class="auth-stat"><span>Horizonte financeiro</span><strong>12 meses</strong></div></div></aside>
+  </main>
+  <script type="module" src="/js/auth.js"></script>
+</body>
+</html>
