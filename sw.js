@@ -1,14 +1,20 @@
-const CACHE_NAME = 'dmdn-shell-v1';
+const CACHE_NAME = 'dmdn-shell-v3';
 const SHELL = [
   '/',
   '/index.html',
   '/login.html',
   '/cadastro.html',
+  '/recuperar-senha.html',
+  '/redefinir-senha.html',
+  '/convite.html',
   '/css/tokens.css',
   '/css/global.css',
   '/css/marketing.css',
   '/css/auth.css',
   '/css/app.css',
+  '/css/invite.css',
+  '/css/goals.css',
+  '/css/dashboard-goals.css',
   '/assets/logo.svg',
   '/assets/icon.svg'
 ];
