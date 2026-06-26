@@ -1,0 +1,26 @@
+.auth-page { min-height: 100vh; display: grid; grid-template-columns: minmax(320px, .85fr) minmax(460px, 1.15fr); }
+.auth-panel { padding: 34px clamp(24px, 6vw, 86px); display: flex; flex-direction: column; justify-content: center; background: var(--surface); }
+.auth-brand { position: absolute; top: 24px; left: clamp(24px, 6vw, 86px); width: 320px; max-width: calc(100% - 48px); }
+.auth-box { width: min(100%, 480px); margin-inline: auto; }
+.auth-box h1 { margin: 0 0 8px; font: 800 clamp(2rem, 5vw, 3rem)/1.05 var(--font-display); letter-spacing: -.04em; }
+.auth-box > p { margin: 0 0 26px; color: var(--muted); }
+.auth-form { display: grid; gap: 15px; }
+.auth-links { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+.auth-links a { color: var(--green-700); font-weight: 700; }
+.auth-visual { position: relative; overflow: hidden; display: grid; place-items: center; padding: 54px; color: #fff; background: linear-gradient(145deg, var(--green-900), var(--green-700) 48%, var(--blue-700)); }
+.auth-visual::before, .auth-visual::after { content: ''; position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); }
+.auth-visual::before { width: 560px; height: 560px; right: -190px; top: -180px; }
+.auth-visual::after { width: 380px; height: 380px; left: -150px; bottom: -120px; }
+.auth-message { position: relative; max-width: 580px; }
+.auth-message h2 { margin: 0; font: 800 clamp(2.4rem, 5vw, 5rem)/.98 var(--font-display); letter-spacing: -.05em; }
+.auth-message p { font-size: 1.2rem; color: rgba(255,255,255,.78); }
+.auth-stat { margin-top: 40px; display: inline-grid; gap: 4px; padding: 16px 20px; border: 1px solid rgba(255,255,255,.22); border-radius: 18px; background: rgba(255,255,255,.09); backdrop-filter: blur(10px); }
+.auth-stat strong { font: 800 1.7rem var(--font-display); }
+.checkbox { display: flex; align-items: flex-start; gap: 9px; }
+.checkbox input { margin-top: 5px; }
+
+@media (max-width: 900px) {
+  .auth-page { grid-template-columns: 1fr; }
+  .auth-panel { min-height: 100vh; padding-top: 115px; }
+  .auth-visual { display: none; }
+}
