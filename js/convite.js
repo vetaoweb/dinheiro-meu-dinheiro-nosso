@@ -56,6 +56,11 @@ function showInvalid(text) {
   memberActions.hidden = true;
 }
 
+async function ensureWorkspace(client) {
+  const { error } = await client.rpc('ensure_user_workspace');
+  if (error) throw error;
+}
+
 async function loadInvitation() {
   if (!isSupabaseConfigured()) {
     showInvalid('A conexão com o sistema ainda não está configurada.');
@@ -106,6 +111,7 @@ async function loadInvitation() {
   memberActions.hidden = !session;
 
   if (session) {
+    await ensureWorkspace(client);
     showInlineMessage(message, `Você está conectado como ${session.user.email}.`, 'info');
   }
 }
@@ -115,6 +121,7 @@ acceptButton?.addEventListener('click', async () => {
   setButtonLoading(acceptButton, true, 'Aceitando...');
 
   try {
+    await ensureWorkspace(client);
     const { data: spaceId, error } = await client.rpc('accept_space_invitation', {
       p_token: token
     });
@@ -124,12 +131,14 @@ acceptButton?.addEventListener('click', async () => {
     showInlineMessage(message, 'Convite aceito. Abrindo o espaço compartilhado...', 'success');
     window.setTimeout(() => window.location.replace(dashboardPath), 900);
   } catch (error) {
-    showInlineMessage(message, error.message || 'Não foi possível aceitar o convite.', 'error');
+    console.error('Falha ao aceitar convite:', error);
+    showInlineMessage(message, error?.message || 'Não foi possível aceitar o convite.', 'error');
   } finally {
     setButtonLoading(acceptButton, false);
   }
 });
 
 loadInvitation().catch((error) => {
-  showInvalid(error.message || 'Não foi possível carregar o convite.');
+  console.error('Falha ao carregar convite:', error);
+  showInvalid(error?.message || 'Não foi possível carregar o convite.');
 });
