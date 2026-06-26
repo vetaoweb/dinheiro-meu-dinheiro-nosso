@@ -1,0 +1,16 @@
+<svg width="560" height="128" viewBox="0 0 560 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Dinheiro Meu é Dinheiro Nosso!</title>
+  <desc id="desc">Símbolo formado por duas estruturas interligadas, verde e azul, acompanhado do nome da marca.</desc>
+  <g transform="translate(4 8)">
+    <rect x="0" y="0" width="112" height="112" rx="32" fill="#F6F3E9"/>
+    <path d="M25 82V38C25 31.373 30.373 26 37 26H47L67 48V82H53V53L42 41H39V82H25Z" fill="#086647"/>
+    <path d="M87 30V74C87 80.627 81.627 86 75 86H65L45 64V30H59V59L70 71H73V30H87Z" fill="#294B63"/>
+    <circle cx="56" cy="56" r="7" fill="#C99A3D"/>
+  </g>
+  <g transform="translate(136 24)" fill="#17211D">
+    <text x="0" y="28" font-family="Manrope, Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-0.8">DINHEIRO <tspan fill="#086647">MEU</tspan></text>
+    <text x="0" y="62" font-family="Manrope, Arial, sans-serif" font-size="18" font-weight="600" fill="#52615B">é</text>
+    <text x="22" y="62" font-family="Manrope, Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-0.8">DINHEIRO <tspan fill="#294B63">NOSSO!</tspan></text>
+    <text x="0" y="91" font-family="Source Sans 3, Arial, sans-serif" font-size="15" font-weight="600" fill="#65736D">Organize o seu. Construa o nosso.</text>
+  </g>
+</svg>
