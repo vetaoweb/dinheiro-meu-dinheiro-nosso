@@ -106,6 +106,10 @@ function rewriteText(content, filePath) {
     );
   }
 
+  if (filePath.endsWith('sw.js')) {
+    content = replaceQuotedValue(content, '/', `${basePath}/`);
+  }
+
   return content;
 }
 
