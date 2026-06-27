@@ -15,12 +15,15 @@
   "rewrites": [
     { "source": "/entrar", "destination": "/login.html" },
     { "source": "/cadastro", "destination": "/cadastro.html" },
+    { "source": "/cadastro-sucesso", "destination": "/cadastro-sucesso.html" },
     { "source": "/recuperar-senha", "destination": "/recuperar-senha.html" },
     { "source": "/redefinir-senha", "destination": "/redefinir-senha.html" },
+    { "source": "/convite", "destination": "/convite.html" },
     { "source": "/termos", "destination": "/termos.html" },
     { "source": "/privacidade", "destination": "/privacidade.html" },
     { "source": "/painel", "destination": "/app/dashboard.html" },
     { "source": "/lancamentos", "destination": "/app/lancamentos.html" },
+    { "source": "/metas", "destination": "/app/metas.html" },
     { "source": "/termometro", "destination": "/app/termometro.html" },
     { "source": "/configuracoes", "destination": "/app/configuracoes.html" }
   ]
