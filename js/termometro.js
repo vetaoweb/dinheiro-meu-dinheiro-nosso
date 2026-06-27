@@ -1,5 +1,5 @@
 import { initApp } from './app-shell.js';
-import { escapeHtml, formatMoney, formatMonth, toast } from './ui.js';
+import { escapeHtml, formatMoney, formatMonth, setButtonLoading, toast } from './ui.js';
 
 function renderSummary(rows) {
   const minBalance = rows.length ? Math.min(...rows.map((row) => Number(row.closing_balance || 0))) : 0;
@@ -18,6 +18,7 @@ function renderTable(rows) {
     empty.hidden = false;
     return;
   }
+
   empty.hidden = true;
   body.innerHTML = rows.map((row) => {
     const balance = Number(row.closing_balance || 0);
@@ -35,6 +36,11 @@ function renderTable(rows) {
 
 function renderChart(rows) {
   const chart = document.querySelector('[data-thermo-chart]');
+  if (!rows.length) {
+    chart.innerHTML = '<div class="empty-state"><strong>Sem dados para projetar</strong>Cadastre lançamentos previstos ou recorrências.</div>';
+    return;
+  }
+
   const max = Math.max(...rows.map((row) => Math.abs(Number(row.closing_balance || 0))), 1);
   chart.innerHTML = rows.map((row) => {
     const balance = Number(row.closing_balance || 0);
@@ -47,24 +53,44 @@ function renderChart(rows) {
   }).join('');
 }
 
-async function loadProjection(client, space) {
+async function loadProjection(client, space, button = null) {
+  if (!space) throw new Error('Nenhum espaço financeiro ativo foi encontrado.');
+
   const startInput = document.querySelector('[data-start-month]');
   const start = startInput.value ? `${startInput.value}-01` : new Date().toISOString().slice(0, 10);
-  const { data, error } = await client.rpc('get_12_month_projection', {
-    p_space_id: space.id,
-    p_start_month: start
-  });
-  if (error) throw error;
-  const rows = data ?? [];
-  renderSummary(rows);
-  renderTable(rows);
-  renderChart(rows);
+  setButtonLoading(button, true, 'Atualizando...');
+
+  try {
+    const { data, error } = await client.rpc('get_12_month_projection', {
+      p_space_id: space.id,
+      p_start_month: start
+    });
+    if (error) throw error;
+
+    const rows = data ?? [];
+    renderSummary(rows);
+    renderTable(rows);
+    renderChart(rows);
+  } finally {
+    setButtonLoading(button, false);
+  }
 }
 
 initApp().then(({ client, state }) => {
-  if (!state.currentSpace) return;
+  if (!state.currentSpace) throw new Error('Nenhum espaço financeiro ativo foi encontrado.');
+
   const input = document.querySelector('[data-start-month]');
+  const refreshButton = document.querySelector('[data-refresh-projection]');
   input.value = new Date().toISOString().slice(0, 7);
-  document.querySelector('[data-refresh-projection]')?.addEventListener('click', () => loadProjection(client, state.currentSpace).catch((error) => toast(error.message, 'error')));
-  loadProjection(client, state.currentSpace).catch((error) => toast(error.message, 'error'));
-}).catch(console.error);
+
+  refreshButton?.addEventListener('click', () => {
+    loadProjection(client, state.currentSpace, refreshButton)
+      .catch((error) => toast(error?.message || 'Não foi possível atualizar a projeção.', 'error'));
+  });
+
+  loadProjection(client, state.currentSpace)
+    .catch((error) => toast(error?.message || 'Não foi possível carregar a projeção.', 'error'));
+}).catch((error) => {
+  console.error(error);
+  toast(error?.message || 'Não foi possível abrir o Termômetro Financeiro.', 'error');
+});
