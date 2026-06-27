@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#086647">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Confirme seu cadastro | Dinheiro Meu é Dinheiro Nosso!</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/signup-success.css">
+</head>
+<body>
+  <main class="signup-success-page">
+    <a class="signup-success-brand" href="/"><img src="/assets/logo.svg" alt="Dinheiro Meu é Dinheiro Nosso!"></a>
+
+    <section class="card signup-success-card">
+      <div class="success-mark" aria-hidden="true">✓</div>
+      <p class="eyebrow">Cadastro recebido</p>
+      <h1>Agora confirme seu e-mail</h1>
+      <p class="signup-success-lead">Enviamos uma mensagem de confirmação para <strong data-signup-email>o e-mail informado</strong>.</p>
+
+      <ol class="signup-steps">
+        <li><span>1</span><div><strong>Abra sua caixa de entrada</strong><p>Procure a mensagem enviada pelo sistema. Verifique também Spam e Promoções.</p></div></li>
+        <li><span>2</span><div><strong>Clique no link de confirmação</strong><p>Esse passo valida que o endereço de e-mail pertence a você.</p></div></li>
+        <li><span>3</span><div><strong>Entre na sua conta</strong><p>Depois da confirmação, use seu e-mail e senha para abrir o painel.</p></div></li>
+      </ol>
+
+      <div class="signup-success-actions">
+        <a class="btn btn-primary" href="/entrar">Ir para o login</a>
+        <a class="btn btn-ghost" href="/">Voltar à página inicial</a>
+      </div>
+
+      <p class="signup-success-note">Nenhuma cobrança foi criada. O acesso atual faz parte da fase beta gratuita.</p>
+    </section>
+  </main>
+
+  <script>
+    const email = sessionStorage.getItem('dmdn.signupEmail');
+    if (email) document.querySelector('[data-signup-email]').textContent = email;
+  </script>
+</body>
+</html>
