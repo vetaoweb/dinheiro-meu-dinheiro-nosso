@@ -1,5 +1,5 @@
 import { initApp } from './app-shell.js';
-import { escapeHtml, formatDate, formatMoney, formatMonth } from './ui.js';
+import { escapeHtml, formatDate, formatMoney, formatMonth, toast } from './ui.js';
 
 function setText(selector, value) {
   const el = document.querySelector(selector);
@@ -13,6 +13,7 @@ function renderChart(rows) {
     chart.innerHTML = '<div class="empty-state"><strong>Sem projeções</strong>Cadastre lançamentos futuros ou recorrentes.</div>';
     return;
   }
+
   const max = Math.max(...rows.map((row) => Math.abs(Number(row.closing_balance || 0))), 1);
   chart.innerHTML = rows.map((row) => {
     const balance = Number(row.closing_balance || 0);
@@ -29,11 +30,13 @@ function renderRecent(rows) {
   const body = document.querySelector('[data-recent-body]');
   const empty = document.querySelector('[data-recent-empty]');
   if (!body || !empty) return;
+
   if (!rows.length) {
     body.innerHTML = '';
     empty.hidden = false;
     return;
   }
+
   empty.hidden = true;
   body.innerHTML = rows.map((row) => `<tr>
     <td>${formatDate(row.effective_date)}</td>
@@ -69,12 +72,33 @@ function renderGoals(rows) {
 }
 
 async function loadDashboard(client, space) {
-  if (!space) return;
+  if (!space) throw new Error('Nenhum espaço financeiro ativo foi encontrado.');
+
   const [projectionResult, transactionResult, accountResult, goalResult] = await Promise.all([
-    client.rpc('get_12_month_projection', { p_space_id: space.id, p_start_month: new Date().toISOString().slice(0, 10) }),
-    client.from('transactions').select('id, description, type, amount, effective_date, status').eq('financial_space_id', space.id).is('deleted_at', null).order('effective_date', { ascending: false }).limit(8),
-    client.from('accounts').select('current_balance').eq('financial_space_id', space.id).eq('status', 'active'),
-    client.from('goals').select('id, name, target_amount, current_amount, target_date, status').eq('financial_space_id', space.id).is('deleted_at', null).order('created_at', { ascending: false })
+    client.rpc('get_12_month_projection', {
+      p_space_id: space.id,
+      p_start_month: new Date().toISOString().slice(0, 10)
+    }),
+    client
+      .from('transactions')
+      .select('id, description, type, amount, effective_date, status')
+      .eq('financial_space_id', space.id)
+      .is('deleted_at', null)
+      .neq('status', 'cancelled')
+      .order('effective_date', { ascending: false })
+      .limit(8),
+    client
+      .from('accounts')
+      .select('current_balance')
+      .eq('financial_space_id', space.id)
+      .eq('status', 'active')
+      .is('deleted_at', null),
+    client
+      .from('goals')
+      .select('id, name, target_amount, current_amount, target_date, status')
+      .eq('financial_space_id', space.id)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false })
   ]);
 
   if (projectionResult.error) throw projectionResult.error;
@@ -97,7 +121,9 @@ async function loadDashboard(client, space) {
   setText('[data-risk-months]', String(riskMonths));
   setText('[data-savings-12m]', formatMoney(savings));
 
-  const score = rows.length ? Math.max(0, Math.min(100, Math.round(((rows.length - riskMonths) / rows.length) * 100))) : 0;
+  const score = rows.length
+    ? Math.max(0, Math.min(100, Math.round(((rows.length - riskMonths) / rows.length) * 100)))
+    : 0;
   const gauge = document.querySelector('[data-health-gauge]');
   if (gauge) gauge.style.setProperty('--gauge', `${score}%`);
   setText('[data-health-score]', `${score}%`);
@@ -108,4 +134,9 @@ async function loadDashboard(client, space) {
   renderGoals(goalResult.data ?? []);
 }
 
-initApp().then(({ client, state }) => loadDashboard(client, state.currentSpace)).catch((error) => console.error(error));
+initApp()
+  .then(({ client, state }) => loadDashboard(client, state.currentSpace))
+  .catch((error) => {
+    console.error(error);
+    toast(error?.message || 'Não foi possível carregar o painel.', 'error');
+  });
