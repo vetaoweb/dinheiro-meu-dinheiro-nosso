@@ -13,6 +13,7 @@ const staticEntries = [
   'index.html',
   'login.html',
   'cadastro.html',
+  'cadastro-sucesso.html',
   'recuperar-senha.html',
   'redefinir-senha.html',
   'convite.html',
@@ -25,6 +26,7 @@ const staticEntries = [
 const routeMap = new Map([
   ['/entrar', `${basePath}/login.html`],
   ['/cadastro', `${basePath}/cadastro.html`],
+  ['/cadastro-sucesso', `${basePath}/cadastro-sucesso.html`],
   ['/recuperar-senha', `${basePath}/recuperar-senha.html`],
   ['/redefinir-senha', `${basePath}/redefinir-senha.html`],
   ['/convite', `${basePath}/convite.html`],
@@ -44,6 +46,7 @@ const exactAssets = new Map([
   ['/index.html', `${basePath}/index.html`],
   ['/login.html', `${basePath}/login.html`],
   ['/cadastro.html', `${basePath}/cadastro.html`],
+  ['/cadastro-sucesso.html', `${basePath}/cadastro-sucesso.html`],
   ['/convite.html', `${basePath}/convite.html`]
 ]);
 
