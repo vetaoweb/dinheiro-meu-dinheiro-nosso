@@ -43,10 +43,11 @@ function friendlyAuthError(error) {
   if (normalized.includes('password should be') || code.includes('weak_password')) return 'A senha não atende aos requisitos mínimos de segurança.';
   if (normalized.includes('email rate limit') || code.includes('over_email_send_rate_limit')) return 'Muitas mensagens foram solicitadas. Aguarde alguns minutos e tente novamente.';
   if (normalized.includes('signup is disabled') || code.includes('signup_disabled')) return 'O cadastro está temporariamente desativado no Supabase.';
-  if (normalized.includes('database error saving new user') || code.includes('unexpected_failure')) return 'O cadastro chegou ao banco, mas a criação do perfil falhou. Aplique o arquivo sql/010_auth_onboarding_repair.sql e tente novamente.';
+  if (normalized.includes('seed_space_defaults')) return 'A preparação da conta precisa da correção sql/013_restore_seed_space_defaults.sql no Supabase.';
+  if (normalized.includes('database error saving new user') || code.includes('unexpected_failure')) return 'O cadastro chegou ao banco, mas a criação do perfil falhou. Aplique os reparos SQL mais recentes e tente novamente.';
   if (rawMessage && rawMessage !== '{}') return rawMessage;
 
-  return 'Não foi possível concluir o cadastro. Atualize a página e tente novamente. O detalhe técnico foi registrado no console do navegador.';
+  return 'Não foi possível concluir a operação. Atualize a página e tente novamente. O detalhe técnico foi registrado no console do navegador.';
 }
 
 async function ensureWorkspace(client) {
@@ -100,8 +101,9 @@ async function handleSignup(data) {
     return;
   }
 
+  sessionStorage.setItem('dmdn.signupEmail', email);
   form.reset();
-  showInlineMessage(message, 'Cadastro criado. Confirme o e-mail recebido para continuar.', 'success');
+  window.location.replace('/cadastro-sucesso');
 }
 
 async function handleRecover(data) {
