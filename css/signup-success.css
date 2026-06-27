@@ -1,0 +1,114 @@
+.signup-success-page {
+  min-height: 100vh;
+  padding: 120px 20px 52px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(59, 155, 107, .2), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(41, 75, 99, .16), transparent 38%),
+    var(--paper);
+}
+
+.signup-success-brand {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  width: min(310px, calc(100vw - 48px));
+}
+
+.signup-success-card {
+  width: min(100%, 720px);
+  padding: clamp(26px, 6vw, 50px);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.success-mark {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 26px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--green-500), var(--green-700));
+  font: 800 2.2rem var(--font-display);
+  box-shadow: 0 18px 36px rgba(8, 102, 71, .2);
+}
+
+.signup-success-card h1 {
+  margin: 0;
+  font: 800 clamp(2.1rem, 6vw, 3.7rem)/1.03 var(--font-display);
+  letter-spacing: -.05em;
+}
+
+.signup-success-lead {
+  max-width: 580px;
+  margin: 16px auto 30px;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.signup-success-lead strong { color: var(--green-800); }
+
+.signup-steps {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  text-align: left;
+}
+
+.signup-steps li {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #F7F8F3;
+}
+
+.signup-steps li > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  color: #fff;
+  background: var(--blue-700);
+  font: 800 1rem var(--font-display);
+}
+
+.signup-steps strong {
+  display: block;
+  margin-top: 1px;
+  font: 800 1rem var(--font-display);
+}
+
+.signup-steps p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.signup-success-actions {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 11px;
+}
+
+.signup-success-note {
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: .86rem;
+}
+
+@media (max-width: 620px) {
+  .signup-success-page { padding-top: 108px; align-items: start; }
+  .signup-success-brand { width: 250px; }
+  .signup-success-actions { align-items: stretch; flex-direction: column; }
+}
