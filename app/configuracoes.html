@@ -19,6 +19,7 @@
       <nav class="sidebar-nav" aria-label="Painel">
         <a data-nav="dashboard" href="/painel"><span class="nav-icon">⌂</span>Painel</a>
         <a data-nav="lancamentos" href="/lancamentos"><span class="nav-icon">⇅</span>Lançamentos</a>
+        <a data-nav="metas" href="/metas"><span class="nav-icon">◎</span>Metas</a>
         <a data-nav="termometro" href="/termometro"><span class="nav-icon">◔</span>Termômetro 12 meses</a>
         <a data-nav="configuracoes" href="/configuracoes"><span class="nav-icon">⚙</span>Configurações</a>
       </nav>
@@ -47,15 +48,16 @@
         </div>
 
         <div class="settings-grid">
-          <aside class="card settings-menu">
-            <button class="active" type="button">Meu perfil</button>
-            <button type="button">Espaços financeiros</button>
-            <button type="button">Pessoas e convites</button>
-            <button type="button">Privacidade</button>
+          <aside class="card settings-menu" aria-label="Seções das configurações">
+            <button class="active" type="button" data-settings-target="settings-profile">Meu perfil</button>
+            <button type="button" data-settings-target="settings-accounts">Contas</button>
+            <button type="button" data-settings-target="settings-collaboration">Pessoas e convites</button>
+            <button type="button" data-settings-target="settings-spaces">Espaços financeiros</button>
+            <button type="button" data-settings-target="settings-privacy">Privacidade</button>
           </aside>
 
           <div class="stack">
-            <section class="card panel">
+            <section class="card panel settings-section" id="settings-profile">
               <div class="panel-header"><div><h2>Meu perfil</h2><p>Seus dados pessoais não são exibidos fora dos espaços em que você participa.</p></div></div>
               <form class="form-grid" data-profile-form>
                 <div class="field full"><label for="profile-name">Nome completo</label><input class="input" id="profile-name" name="full_name" required></div>
@@ -70,10 +72,11 @@
               <div class="invitation-list" data-received-invitations></div>
             </section>
 
-            <section class="card panel">
+            <section class="card panel settings-section" id="settings-accounts">
               <div class="panel-header"><div><h2>Contas do espaço atual</h2><p>Cadastre contas e ajuste o saldo usado como ponto de partida da projeção.</p></div></div>
+              <div class="alert alert-info" data-account-readonly hidden>Seu perfil possui somente visualização neste espaço. Você pode consultar as contas, mas não criar novas.</div>
               <form class="form-grid" data-account-form>
-                <div class="field"><label for="account-name">Nome da conta</label><input class="input" id="account-name" name="name" placeholder="Ex.: Conta corrente" required></div>
+                <div class="field"><label for="account-name">Nome da conta</label><input class="input" id="account-name" name="name" maxlength="80" placeholder="Ex.: Conta corrente" required></div>
                 <div class="field"><label for="account-type">Tipo</label><select class="select" id="account-type" name="type"><option value="checking">Conta corrente</option><option value="savings">Poupança/reserva</option><option value="cash">Dinheiro</option><option value="investment">Investimento</option><option value="other">Outra</option></select></div>
                 <div class="field"><label for="account-balance">Saldo atual</label><input class="input" id="account-balance" name="current_balance" type="number" step="0.01" value="0" required></div>
                 <div class="full"><button class="btn btn-secondary" type="submit">Adicionar conta</button></div>
@@ -84,7 +87,7 @@
               </div>
             </section>
 
-            <section class="card panel">
+            <section class="card panel settings-section" id="settings-collaboration">
               <div class="panel-header"><div><h2>Pessoas do espaço atual</h2><p data-collaboration-description>Carregando as permissões deste espaço.</p></div></div>
 
               <div class="alert alert-info" data-personal-space-notice hidden>O espaço pessoal permanece privado. Crie um espaço familiar ou profissional para compartilhar dados.</div>
@@ -116,13 +119,23 @@
               </div>
             </section>
 
-            <section class="card panel">
+            <section class="card panel settings-section" id="settings-spaces">
               <div class="panel-header"><div><h2>Novo espaço financeiro</h2><p>Crie um ambiente familiar ou profissional separado.</p></div></div>
               <form class="form-grid" data-space-form>
-                <div class="field"><label for="space-name">Nome</label><input class="input" id="space-name" name="name" placeholder="Ex.: Casa da família" required></div>
+                <div class="field"><label for="space-name">Nome</label><input class="input" id="space-name" name="name" maxlength="80" placeholder="Ex.: Casa da família" required></div>
                 <div class="field"><label for="space-type">Tipo</label><select class="select" id="space-type" name="type"><option value="household">Compartilhado/familiar</option><option value="business">Profissional/negócio</option></select></div>
                 <div class="full"><button class="btn btn-secondary" type="submit">Criar espaço</button></div>
               </form>
+            </section>
+
+            <section class="card panel settings-section" id="settings-privacy">
+              <div class="panel-header"><div><h2>Privacidade e segurança</h2><p>O espaço pessoal é isolado dos espaços familiares e profissionais.</p></div></div>
+              <div class="stack">
+                <div class="row-between"><span>Controle de acesso por usuário e espaço</span><span class="badge badge-green">Ativo</span></div>
+                <div class="row-between"><span>Políticas RLS no banco de dados</span><span class="badge badge-green">Ativo</span></div>
+                <div class="row-between"><span>Dados de cartão armazenados no site</span><strong>Não</strong></div>
+                <a class="btn btn-ghost" href="/privacidade" target="_blank" rel="noopener">Ler Política de Privacidade</a>
+              </div>
             </section>
           </div>
         </div>
