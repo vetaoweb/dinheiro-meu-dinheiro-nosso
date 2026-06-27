@@ -30,6 +30,9 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Verificar estrutura e JavaScript
+        run: node scripts/verify-project.mjs
+
       - name: Montar versão para GitHub Pages
         run: node scripts/build-pages.mjs
 
