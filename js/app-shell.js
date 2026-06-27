@@ -1,6 +1,7 @@
 import { requireSession } from './guard.js';
 import { requireSupabase } from './supabase-client.js';
 import { escapeHtml, toast } from './ui.js';
+import { applyPanelPermissions } from './panel-permissions.js';
 
 export const appState = {
   session: null,
@@ -60,6 +61,10 @@ async function loadSpaces(client) {
   const saved = localStorage.getItem('dmdn.currentSpaceId');
   appState.currentSpace = appState.spaces.find((space) => space.id === saved) || appState.spaces[0] || null;
 
+  if (appState.currentSpace) {
+    localStorage.setItem('dmdn.currentSpaceId', appState.currentSpace.id);
+  }
+
   const select = document.querySelector('[data-space-select]');
   if (select) {
     select.innerHTML = appState.spaces.map((space) => `<option value="${space.id}">${escapeHtml(space.name)}</option>`).join('');
@@ -74,6 +79,7 @@ async function loadSpaces(client) {
 function bindLogout(client) {
   document.querySelector('[data-logout]')?.addEventListener('click', async () => {
     await client.auth.signOut();
+    localStorage.removeItem('dmdn.currentSpaceId');
     window.location.replace('/entrar');
   });
 }
@@ -90,6 +96,7 @@ export async function initApp() {
       loadProfile(client, appState.session.user),
       loadSpaces(client)
     ]);
+    applyPanelPermissions(appState);
   } catch (error) {
     console.error('Falha ao inicializar a conta:', error);
     toast(error?.message || 'Falha ao carregar sua conta.', 'error');
