@@ -6,6 +6,7 @@ function ensureReadonlyNotice() {
   const notice = document.createElement('div');
   notice.className = 'alert alert-info readonly-space-notice';
   notice.dataset.readonlySpaceNotice = '';
+  notice.style.marginBottom = '18px';
   notice.textContent = 'Você participa deste espaço com permissão de visualização. Alterações estão desativadas.';
   header.insertAdjacentElement('afterend', notice);
 }
@@ -47,11 +48,14 @@ function bindSettingsNavigation() {
   if (!buttons.length) return;
 
   buttons.forEach((button) => {
+    const section = document.getElementById(button.dataset.settingsTarget);
+    if (section) section.style.scrollMarginTop = '96px';
+
     button.addEventListener('click', () => {
-      const section = document.getElementById(button.dataset.settingsTarget);
-      if (!section) return;
+      const target = document.getElementById(button.dataset.settingsTarget);
+      if (!target) return;
       buttons.forEach((item) => item.classList.toggle('active', item === button));
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 }
