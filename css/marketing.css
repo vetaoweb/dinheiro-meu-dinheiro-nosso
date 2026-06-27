@@ -54,6 +54,14 @@
 .month-row i:nth-child(4n) { background: var(--gold-100); }
 .month-row i:nth-child(7), .month-row i:nth-child(8) { background: var(--red-100); }
 
+.access-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 42px; align-items: center; }
+.access-card { padding: clamp(26px, 5vw, 42px); }
+.access-card-featured { border-color: rgba(8, 102, 71, .24); box-shadow: var(--shadow-md); }
+.access-card h2, .access-explanation h2 { margin: 16px 0 12px; font: 800 clamp(2rem, 4vw, 3.2rem)/1.05 var(--font-display); letter-spacing: -.04em; }
+.access-card > p, .access-explanation > p { color: var(--muted); font-size: 1.06rem; }
+.access-card .check-list { margin: 24px 0; }
+.access-explanation { padding: 16px 0; }
+
 .cta { padding: 42px; border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--green-900), var(--blue-700)); color: white; display: flex; align-items: center; justify-content: space-between; gap: 30px; box-shadow: var(--shadow-md); }
 .cta h2 { margin: 0 0 8px; font: 800 clamp(1.8rem, 4vw, 3rem)/1.05 var(--font-display); }
 .cta p { margin: 0; color: rgba(255,255,255,.78); }
@@ -64,7 +72,7 @@
 @media (max-width: 880px) {
   .site-nav a:not(.btn) { display: none; }
   .hero { padding-top: 60px; }
-  .hero-grid, .split { grid-template-columns: 1fr; }
+  .hero-grid, .split, .access-grid { grid-template-columns: 1fr; }
   .preview { max-width: 620px; transform: none; }
   .features { grid-template-columns: 1fr 1fr; }
 }
