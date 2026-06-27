@@ -1,9 +1,10 @@
-const CACHE_NAME = 'dmdn-shell-v3';
+const CACHE_NAME = 'dmdn-shell-v4';
 const SHELL = [
   '/',
   '/index.html',
   '/login.html',
   '/cadastro.html',
+  '/cadastro-sucesso.html',
   '/recuperar-senha.html',
   '/redefinir-senha.html',
   '/convite.html',
@@ -11,6 +12,7 @@ const SHELL = [
   '/css/global.css',
   '/css/marketing.css',
   '/css/auth.css',
+  '/css/signup-success.css',
   '/css/app.css',
   '/css/invite.css',
   '/css/goals.css',
