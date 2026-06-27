@@ -4,7 +4,7 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 
 **Slogan:** Organize o seu. Construa o nosso.
 
-## Fundação funcional v0.3.0
+## Fundação funcional v0.3.1
 
 - identidade visual própria;
 - landing page responsiva;
@@ -16,6 +16,7 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 - espaços pessoal, familiar e profissional;
 - convites por link para espaços compartilhados;
 - integrantes com papéis de administrador, editor ou visualizador;
+- controles visuais de somente leitura para visualizadores;
 - Termômetro Financeiro com horizonte móvel de 12 meses;
 - banco relacional com isolamento por espaço;
 - auditoria, exclusão lógica e páginas legais;
@@ -48,11 +49,14 @@ Depois execute no SQL Editor, um arquivo por vez:
 13. `sql/011_verificacao_auth.sql`
 14. `sql/012_fix_auth_function_permissions.sql`
 15. `sql/013_restore_seed_space_defaults.sql`
+16. `sql/014_restore_create_financial_space.sql`
+17. `sql/015_verificacao_fluxos_painel.sql`
 
-Para o banco que já foi instalado até o arquivo `012`, execute agora somente:
+Para o banco que já foi instalado até o arquivo `013`, execute agora somente:
 
 ```text
-sql/013_restore_seed_space_defaults.sql
+sql/014_restore_create_financial_space.sql
+sql/015_verificacao_fluxos_painel.sql
 ```
 
 Interrompa a sequência no primeiro erro e preserve a mensagem completa antes de executar o arquivo seguinte.
@@ -66,6 +70,18 @@ O cadastro cria o usuário no Supabase Auth e envia a confirmação por e-mail. 
 - papel de proprietário;
 - conta principal;
 - categorias financeiras iniciais.
+
+## Painel e permissões
+
+O painel contém:
+
+- visão geral e projeção;
+- lançamentos únicos e recorrentes;
+- metas financeiras;
+- Termômetro dos próximos 12 meses;
+- contas, espaços e colaboração nas configurações.
+
+Proprietários, administradores e editores podem alterar os dados permitidos pelo papel. Visualizadores recebem interface de somente leitura e continuam protegidos pelas políticas RLS do banco.
 
 ## Colaboração
 
