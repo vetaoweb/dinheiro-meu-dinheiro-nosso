@@ -63,6 +63,10 @@ function bindSettingsNavigation() {
 export function applyPanelPermissions(state) {
   bindSettingsNavigation();
 
+  if (document.body.dataset.page === 'lancamentos') {
+    import('./lancamentos-validation.js').catch((error) => console.error('Falha ao carregar validações:', error));
+  }
+
   const role = state.currentSpace?.member_role;
   if (role !== 'viewer') return;
 
