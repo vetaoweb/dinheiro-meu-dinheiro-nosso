@@ -4,13 +4,15 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 
 **Slogan:** Organize o seu. Construa o nosso.
 
-## Fundação funcional v0.2.0
+## Fundação funcional v0.3.0
 
 - identidade visual própria;
 - landing page responsiva;
-- cadastro, login e recuperação de acesso;
+- cadastro com página de confirmação de e-mail;
+- login, recuperação e redefinição de acesso;
 - painel autenticado;
 - contas, lançamentos e recorrências;
+- metas financeiras com progresso e prazo;
 - espaços pessoal, familiar e profissional;
 - convites por link para espaços compartilhados;
 - integrantes com papéis de administrador, editor ou visualizador;
@@ -18,7 +20,8 @@ Sistema autoral de organização financeira pessoal, compartilhada e profissiona
 - banco relacional com isolamento por espaço;
 - auditoria, exclusão lógica e páginas legais;
 - publicação automática no GitHub Pages;
-- PWA com manifesto e service worker.
+- PWA com manifesto e service worker;
+- estratégia documentada para futura cobrança pelo PagBank.
 
 ## Conexão
 
@@ -41,15 +44,28 @@ Depois execute no SQL Editor, um arquivo por vez:
 9. `sql/007_verificacao.sql`
 10. `sql/008_collaboration.sql`
 11. `sql/009_verificacao_colaboracao.sql`
+12. `sql/010_auth_onboarding_repair.sql`
+13. `sql/011_verificacao_auth.sql`
+14. `sql/012_fix_auth_function_permissions.sql`
+15. `sql/013_restore_seed_space_defaults.sql`
 
-Quem já concluiu a instalação até o arquivo `007_verificacao.sql` precisa executar somente:
+Para o banco que já foi instalado até o arquivo `012`, execute agora somente:
 
 ```text
-sql/008_collaboration.sql
-sql/009_verificacao_colaboracao.sql
+sql/013_restore_seed_space_defaults.sql
 ```
 
 Interrompa a sequência no primeiro erro e preserve a mensagem completa antes de executar o arquivo seguinte.
+
+## Cadastro e preparação da conta
+
+O cadastro cria o usuário no Supabase Auth e envia a confirmação por e-mail. Depois da autenticação, a função `ensure_user_workspace()` garante, sem duplicar:
+
+- perfil;
+- espaço pessoal “Meu dinheiro”;
+- papel de proprietário;
+- conta principal;
+- categorias financeiras iniciais.
 
 ## Colaboração
 
@@ -62,6 +78,16 @@ Em um espaço familiar ou profissional, proprietários e administradores podem:
 - acompanhar e cancelar convites pendentes.
 
 O convite só pode ser aceito por uma conta cadastrada com o mesmo e-mail. O espaço pessoal continua privado e não aceita outros integrantes.
+
+## Acesso gratuito e pagamentos
+
+O sistema permanece gratuito durante a fase beta, sem cartão e sem cobrança automática. A estratégia para futura monetização com PagBank está em:
+
+```text
+docs/PAGAMENTOS_PAGBANK.md
+```
+
+Tokens privados de pagamento nunca devem ser colocados no frontend ou no GitHub Pages.
 
 ## Execução local
 
