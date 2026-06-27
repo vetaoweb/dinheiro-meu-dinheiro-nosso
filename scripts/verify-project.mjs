@@ -42,9 +42,14 @@ const jsDirectories = ['js', 'scripts'];
 for (const directory of jsDirectories) {
   const files = await readdir(path.join(root, directory));
   for (const name of files.filter((file) => file.endsWith('.js') || file.endsWith('.mjs'))) {
-    const file = path.join(root, directory, name);
+    const filePath = path.join(root, directory, name);
     try {
-      execFileSync(process.execPath, ['--check', file], { stdio: 'pipe' });
+      const source = await readFile(filePath, 'utf8');
+      execFileSync(
+        process.execPath,
+        ['--input-type=module', '--check'],
+        { input: source, stdio: ['pipe', 'pipe', 'pipe'] }
+      );
     } catch (error) {
       errors.push(`JavaScript inválido em ${directory}/${name}: ${String(error.stderr || error.message).trim()}`);
     }
